@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wheels | A Simple Auto Leasing Platform</title>
-    <meta name="title" content="Wheels | A Simple Auto Leasing Platform">
+    <title>The Next Dress | Where Every Dress Finds Its Next Story</title>
+    <meta name="title" content="The Next Dress | Where Every Dress Finds Its Next Story">
     <meta name="description" content="Browse and compare top car lease deals on an easy-to-use platform.">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Wheels | A Simple Auto Leasing Platform">
+    <meta property="og:title" content="The Next Dress | Where Every Dress Finds Its Next Story">
     <meta property="og:description" content="Browse and compare top car lease deals on an easy-to-use platform.">
-    <meta property="og:url" content="https://wheelsautoleasing.com/">
-    <meta property="og:image" content="https://wheelsautoleasing.com/images/home-social-preview.png">
+    <meta property="og:url" content="https://thenextdress.com/">
+    <meta property="og:image" content="https://thenextdress.com/images/home-social-preview.png">
 
     <link rel="icon" type="image/png" href="/images/favicon.png" sizes="32x32">
-    <link rel="canonical" href="https://wheelsautoleasing.com/">
+    <link rel="canonical" href="https://thenextdress.com/">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -74,20 +74,23 @@
         <nav x-data="{ isOpen: false }" class="max-w-[2000px] p-5 mx-auto lg:px-8 lg:py-5">
             <div class="flex justify-between items-center relative">
                 <!-- Logo -->
-                <a href="/">
+                <a href="../">
                     <img class="w-auto h-5 sm:h-7" src="/images/logo-blue.png" alt="logo">
                 </a>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 space-x-12">
-                    <a href="/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Home</a>
-                    <a href="/shop-collection/"
-                        class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Shop Collection</a>
-                    <a href="/sell-your-dress/"
-                        class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Sell Your Dress</a>
-                    <a href="/about-us/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">About
+                    <a href="../" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Home</a>
+                    <a href="../shop-collection/"
+                        class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Shop
+                        Collection</a>
+                    <a href="../sell-your-dress/"
+                        class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Sell
+                        Your Dress</a>
+                    <a href="../about-us/"
+                        class="text-gray-600 hover:text-blue-600 transition-colors duration-300">About
                         us</a>
-                    <a href="/contact/"
+                    <a href="../contact/"
                         class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Contact</a>
                 </div>
 
@@ -95,7 +98,7 @@
                 <!-- Login -->
                 <div class="hidden lg:flex items-center">
                     <a class="block px-5 py-2 mt-4 text-sm text-center text-white capitalize bg-blue-600 rounded-lg lg:mt-0 hover:bg-blue-500 lg:w-auto"
-                        href="/login/">
+                        href="../login/">
                         Log in
                     </a>
                 </div>
@@ -122,21 +125,21 @@
             <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
                 class="lg:hidden absolute inset-x-0 transition-all duration-300 ease-in-out bg-white border-b border-gray-200 shadow-lg z-40">
                 <div class="px-4 py-6 space-y-4">
-                    <a href="/"
+                    <a href="../"
                         class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Home</a>
-                    <a href="/shop-dress/"
+                    <a href="../shop-collection/"
                         class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Shop
                         Collection</a>
-                    <a href="sell-your-dress/"
+                    <a href="../sell-your-dress/"
                         class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Sell
                         Your Dress</a>
-                    <a href="/about-us/"
+                    <a href="../about-us/"
                         class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">About
                         us</a>
-                    <a href="/contact/"
+                    <a href="../contact/"
                         class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Contact</a>
                     <a class="block px-5 py-2 mt-4 text-sm text-center text-white capitalize bg-blue-600 rounded-lg lg:mt-0 hover:bg-blue-500 lg:w-auto"
-                        href="/login/">
+                        href="../login/">
                         Log in
                     </a>
                 </div>
@@ -145,7 +148,7 @@
     </header>
 
 
-    <div class="max-w-4xl mx-auto p-6 space-y-8">
+    <div class="max-w-4xl mx-auto pt-20 px-6 space-y-8">
         <!-- Page Header -->
         <div class="text-center">
             <h1 class="text-3xl font-bold text-gray-900 mb-2">Sell Your Dress</h1>
@@ -549,32 +552,33 @@
     </div>
 
     <!-- Reset Confirmation Modal (Add this before the closing </body> tag) -->
-<div id="reset-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 animate-slideIn">
-        <div class="p-6">
-            <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
-                    <i class="fas fa-undo text-orange-600 text-xl"></i>
+    <div id="reset-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 animate-slideIn">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-undo text-red-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">Reset Form</h3>
+                        <p class="text-sm text-gray-600">This action cannot be undone</p>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900">Reset Form</h3>
-                    <p class="text-sm text-gray-600">This action cannot be undone</p>
+                <p class="text-gray-700 mb-6">Are you sure you want to reset the form? All entered data, uploaded
+                    images, and form progress will be permanently lost.</p>
+                <div class="flex gap-3">
+                    <button id="cancel-reset"
+                        class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+                        Cancel
+                    </button>
+                    <button id="confirm-reset"
+                        class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition-colors">
+                        Reset Form
+                    </button>
                 </div>
-            </div>
-            <p class="text-gray-700 mb-6">Are you sure you want to reset the form? All entered data, uploaded images, and form progress will be permanently lost.</p>
-            <div class="flex gap-3">
-                <button id="cancel-reset"
-                    class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors">
-                    Cancel
-                </button>
-                <button id="confirm-reset"
-                    class="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium transition-colors">
-                    Reset Form
-                </button>
             </div>
         </div>
     </div>
-</div>
 
     <!-- Footer -->
     <footer class="bg-white  border-t">
@@ -825,22 +829,17 @@
                 document.getElementById('photos-error').style.display = 'none';
             }
 
-           if (!isValid) {
-        // Scroll to the first error field
-        if (firstErrorField) {
-            firstErrorField.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-            
-            // Optional: Add focus to the first error field for better UX
-            setTimeout(() => {
-                firstErrorField.focus();
-            }, 500); // Delay to allow scroll animation to complete
-        }
-        
-        return;
-    }
+            if (!isValid) {
+                // Scroll to the first error field
+                if (firstErrorField) {
+                    firstErrorField.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+
+                return;
+            }
 
             // Show loading state
             submitBtn.disabled = true;
@@ -856,129 +855,129 @@
         });
 
         function resetForm() {
-    showResetModal();
-}
+            showResetModal();
+        }
 
-function showResetModal() {
-    document.getElementById('reset-modal').classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-}
+        function showResetModal() {
+            document.getElementById('reset-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
 
-function hideResetModal() {
-    document.getElementById('reset-modal').classList.add('hidden');
-    document.body.style.overflow = ''; // Restore scrolling
-}
+        function hideResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
 
-function performReset() {
-    try {
-        // Get the form element
-        const form = document.getElementById('dress-form');
-        if (!form) {
-            console.error('Form element not found');
-            return;
-        }
-        
-        // Reset the form using native reset method
-        form.reset();
-        
-        // Clear uploaded files array
-        if (typeof uploadedFiles !== 'undefined') {
-            uploadedFiles.length = 0;
-        }
-        
-        // Clear image preview
-        const imagePreview = document.getElementById('image-preview');
-        if (imagePreview) {
-            imagePreview.innerHTML = '';
-        }
-        
-        // Clear submit message
-        const submitMessage = document.getElementById('submit-message');
-        if (submitMessage) {
-            submitMessage.innerHTML = '';
-        }
-        
-        // Reset character count for description
-        const charCount = document.getElementById('char-count');
-        if (charCount) {
-            charCount.textContent = '0/500';
-            charCount.classList.remove('text-red-500');
-        }
-        
-        // Clear all field error styling
-        const fieldErrors = document.querySelectorAll('.field-error');
-        fieldErrors.forEach(field => {
-            field.classList.remove('field-error');
-        });
-        
-        // Hide all error messages
-        const errorMessages = document.querySelectorAll('.error-message');
-        errorMessages.forEach(error => {
-            error.style.display = 'none';
-        });
-        
-        // Reset the price negotiable toggle switch
-        const negotiableCheckbox = document.getElementById('dress-negotiable');
-        if (negotiableCheckbox) {
-            negotiableCheckbox.checked = false;
-        }
-        
-        // Reset contact methods error styling on container
-        const contactMethodsContainer = document.querySelector('input[name="contactMethods"]');
-        if (contactMethodsContainer) {
-            const containerDiv = contactMethodsContainer.closest('.space-y-3');
-            if (containerDiv) {
-                containerDiv.classList.remove('field-error');
+        function performReset() {
+            try {
+                // Get the form element
+                const form = document.getElementById('dress-form');
+                if (!form) {
+                    console.error('Form element not found');
+                    return;
+                }
+
+                // Reset the form using native reset method
+                form.reset();
+
+                // Clear uploaded files array
+                if (typeof uploadedFiles !== 'undefined') {
+                    uploadedFiles.length = 0;
+                }
+
+                // Clear image preview
+                const imagePreview = document.getElementById('image-preview');
+                if (imagePreview) {
+                    imagePreview.innerHTML = '';
+                }
+
+                // Clear submit message
+                const submitMessage = document.getElementById('submit-message');
+                if (submitMessage) {
+                    submitMessage.innerHTML = '';
+                }
+
+                // Reset character count for description
+                const charCount = document.getElementById('char-count');
+                if (charCount) {
+                    charCount.textContent = '0/500';
+                    charCount.classList.remove('text-red-500');
+                }
+
+                // Clear all field error styling
+                const fieldErrors = document.querySelectorAll('.field-error');
+                fieldErrors.forEach(field => {
+                    field.classList.remove('field-error');
+                });
+
+                // Hide all error messages
+                const errorMessages = document.querySelectorAll('.error-message');
+                errorMessages.forEach(error => {
+                    error.style.display = 'none';
+                });
+
+                // Reset the price negotiable toggle switch
+                const negotiableCheckbox = document.getElementById('dress-negotiable');
+                if (negotiableCheckbox) {
+                    negotiableCheckbox.checked = false;
+                }
+
+                // Reset contact methods error styling on container
+                const contactMethodsContainer = document.querySelector('input[name="contactMethods"]');
+                if (contactMethodsContainer) {
+                    const containerDiv = contactMethodsContainer.closest('.space-y-3');
+                    if (containerDiv) {
+                        containerDiv.classList.remove('field-error');
+                    }
+                }
+
+                // Reset submit button to normal state
+                const submitBtn = document.getElementById('submit-btn');
+                const submitBtnText = document.getElementById('submit-btn-text');
+                const submitSpinner = document.getElementById('submit-spinner');
+
+                if (submitBtn) submitBtn.disabled = false;
+                if (submitBtnText) submitBtnText.textContent = 'Submit';
+                if (submitSpinner) submitSpinner.classList.add('hidden');
+
+                // Hide the modal
+                hideResetModal();
+
+                // Scroll to top of form
+                form.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+            } catch (error) {
+                console.error('Error in reset function:', error);
+                alert('There was an error resetting the form. Please refresh the page.');
+                hideResetModal();
             }
         }
-        
-        // Reset submit button to normal state
-        const submitBtn = document.getElementById('submit-btn');
-        const submitBtnText = document.getElementById('submit-btn-text');
-        const submitSpinner = document.getElementById('submit-spinner');
-        
-        if (submitBtn) submitBtn.disabled = false;
-        if (submitBtnText) submitBtnText.textContent = 'Submit';
-        if (submitSpinner) submitSpinner.classList.add('hidden');
-        
-        // Hide the modal
-        hideResetModal();
-        
-        // Scroll to top of form
-        form.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-        });
-        
-    } catch (error) {
-        console.error('Error in reset function:', error);
-        alert('There was an error resetting the form. Please refresh the page.');
-        hideResetModal();
-    }
-}
 
-// Event listeners for modal buttons
-document.addEventListener('DOMContentLoaded', function() {
-    // Cancel reset button
-    document.getElementById('cancel-reset').addEventListener('click', hideResetModal);
-    
-    // Confirm reset button
-    document.getElementById('confirm-reset').addEventListener('click', performReset);
-    
-    // Close modal when clicking outside
-    document.getElementById('reset-modal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            hideResetModal();
-        }
-    });
-    
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && !document.getElementById('reset-modal').classList.contains('hidden')) {
-            hideResetModal();
-        }
-    });
-});
+        // Event listeners for modal buttons
+        document.addEventListener('DOMContentLoaded', function () {
+            // Cancel reset button
+            document.getElementById('cancel-reset').addEventListener('click', hideResetModal);
+
+            // Confirm reset button
+            document.getElementById('confirm-reset').addEventListener('click', performReset);
+
+            // Close modal when clicking outside
+            document.getElementById('reset-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    hideResetModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !document.getElementById('reset-modal').classList.contains('hidden')) {
+                    hideResetModal();
+                }
+            });
+        });
 
         // Real-time validation
         document.addEventListener('DOMContentLoaded', function () {

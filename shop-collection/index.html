@@ -1,28 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leasing Deals | Wheels</title>
-  <meta name="title" content="Leasing Deals | Wheels">
-  <meta name="description" content="Explore current car lease deals from trusted dealerships.">
+  <title>The Next Dress | Where Every Dress Finds Its Next Story</title>
+  <meta name="title" content="The Next Dress | Where Every Dress Finds Its Next Story">
+  <meta name="description" content="Browse and compare top car lease deals on an easy-to-use platform.">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Leasing Deals | Wheels">
-  <meta property="og:description" content="Explore current car lease deals from trusted dealerships.">
-  <meta property="og:url" content="https://wheelsautoleasing.com/leasing-deals/">
-  <meta property="og:image" content="https://wheelsautoleasing.com/images/leasing-deals-social-preview.png">
+  <meta property="og:title" content="The Next Dress | Where Every Dress Finds Its Next Story">
+  <meta property="og:description" content="Browse and compare top car lease deals on an easy-to-use platform.">
+  <meta property="og:url" content="https://thenextdress.com/">
+  <meta property="og:image" content="https://thenextdress.com/images/home-social-preview.png">
 
   <link rel="icon" type="image/png" href="/images/favicon.png" sizes="32x32">
-  <link rel="canonical" href="https://wheelsautoleasing.com/leasing-deals/">
+  <link rel="canonical" href="https://thenextdress.com/">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
 </head>
 
 <style>
@@ -233,26 +232,27 @@
     <nav x-data="{ isOpen: false }" class="max-w-[2000px] p-5 mx-auto lg:px-8 lg:py-5">
       <div class="flex justify-between items-center relative">
         <!-- Logo -->
-        <a href="/">
+        <a href="../">
           <img class="w-auto h-5 sm:h-7" src="/images/logo-blue.png" alt="logo">
         </a>
 
         <!-- Desktop Navigation -->
         <div class="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 space-x-12">
-          <a href="/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Home</a>
-          <a href="/shop-collection/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Shop
+          <a href="../" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Home</a>
+          <a href="../shop-collection/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Shop
             Collection</a>
-          <a href="/sell-your-dress/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Sell Your
-            Dress</a>
-          <a href="/about-us/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">About us</a>
-          <a href="/contact/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Contact</a>
+          <a href="../sell-your-dress/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Sell
+            Your Dress</a>
+          <a href="../about-us/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">About
+            us</a>
+          <a href="../contact/" class="text-gray-600 hover:text-blue-600 transition-colors duration-300">Contact</a>
         </div>
 
 
         <!-- Login -->
         <div class="hidden lg:flex items-center">
           <a class="block px-5 py-2 mt-4 text-sm text-center text-white capitalize bg-blue-600 rounded-lg lg:mt-0 hover:bg-blue-500 lg:w-auto"
-            href="/login/">
+            href="../login/">
             Log in
           </a>
         </div>
@@ -279,20 +279,21 @@
       <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
         class="lg:hidden absolute inset-x-0 transition-all duration-300 ease-in-out bg-white border-b border-gray-200 shadow-lg z-40">
         <div class="px-4 py-6 space-y-4">
-          <a href="/"
+          <a href="../"
             class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Home</a>
-          <a href="/shop-dress/"
+          <a href="../shop-collection/"
             class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Shop
             Collection</a>
-          <a href="/sell-your-dress/"
-            class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Sell Your
-            Dress</a>
-          <a href="/about-us/"
-            class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">About us</a>
-          <a href="/contact/"
+          <a href="../sell-your-dress/"
+            class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Sell
+            Your Dress</a>
+          <a href="../about-us/"
+            class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">About
+            us</a>
+          <a href="../contact/"
             class="block text-gray-600 hover:text-blue-600 font-medium transition-colors duration-300">Contact</a>
           <a class="block px-5 py-2 mt-4 text-sm text-center text-white capitalize bg-blue-600 rounded-lg lg:mt-0 hover:bg-blue-500 lg:w-auto"
-            href="/login/">
+            href="../login/">
             Log in
           </a>
         </div>
@@ -756,7 +757,7 @@
             color: 'Pink',
             label: "",
             category: 'Casual',
-            description: 'Beautiful floral print summer dress, perfect for casual outings.',
+            description: 'Beautiful floral print summer dress, perfect for casual outings.Beautiful floral print summer dress, perfect for casual outings.',
             images: ['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop'],
             seller: 'Sarah M.',
             location: 'New York, NY',
@@ -772,7 +773,7 @@
             color: 'Pink',
             label: 'Wow!',
             category: 'Casual',
-            description: 'Beautiful floral print summer dress, perfect for casual outings.',
+            description: 'Beautiful floral print summer dress, perfect for casual outings.Beautiful floral print summer dress, perfect for casual outings.',
             images: ['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop'],
             seller: 'Sarah M.',
             location: 'New York, NY',
@@ -788,7 +789,7 @@
             color: 'Pink',
             label: 'Wow!',
             category: 'Casual',
-            description: 'Beautiful floral print summer dress, perfect for casual outings.',
+            description: 'Beautiful floral print summer dress, perfect for casual outings.Beautiful floral print summer dress, perfect for casual outings.',
             images: ['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop'],
             seller: 'Sarah M.',
             location: 'New York, NY',
