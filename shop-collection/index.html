@@ -21,135 +21,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/tailwind.config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
-
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          'warm-gray': {
-            50: '#F8F7F7',
-            100: '#F0EEEE',
-            200: '#DDD9D9',
-            300: '#C4BFBF',
-            400: '#A59C9C',
-            500: '#8B7F7F',
-            600: '#726868',
-            700: '#5C5151',
-            800: '#463E3E',
-            900: '#302B2B',
-          },
-          'cream': {
-            50: '#FEFEFE',
-            100: '#FDFCFB',
-            200: '#FBF9F7',
-            300: '#F9F6F2',
-            400: '#F8F5F2',
-            500: '#F7F5F3',
-            600: '#EDE8E5',
-            700: '#E0D8D3',
-            800: '#D0C5BE',
-            900: '#BEB0A6',
-          },
-          'charcoal': {
-            50: '#F5F5F5',
-            100: '#E8E8E8',
-            200: '#D1D1D1',
-            300: '#B4B4B4',
-            400: '#8A8A8A',
-            500: '#6B6B6B',
-            600: '#545454',
-            700: '#3D3D3D',
-            800: '#2C2C2C',
-            900: '#1A1A1A',
-          }
-        },
-        fontFamily: {
-          'luxury': ['Georgia', 'Times New Roman', 'serif'],
-          'luxury-sans': ['Inter', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        },
-        borderRadius: {
-          'luxury': '12px',
-          'luxury-lg': '20px',
-        },
-        boxShadow: {
-          'luxury': '0 10px 30px rgba(139, 127, 127, 0.1)',
-          'luxury-lg': '0 20px 40px rgba(139, 127, 127, 0.15)',
-          'luxury-xl': '0 25px 50px rgba(139, 127, 127, 0.2)',
-        }
-      }
-    }
-  }
-</script>
-
 <style>
-  body {
-        font-family: 'Inter', sans-serif;
-    }
-
-  [x-cloak] {
-    display: none !important;
-  }
-
   .modal-open {
     overflow-y: scroll;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  .animate-fadeInUp {
-    animation: fadeInUp 0.4s ease-out forwards;
-  }
-
-  .animate-slideIn {
-    animation: slideIn 0.3s ease-out forwards;
-  }
-
-  /* Custom scrollbar for select */
-  .custom-scroll::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .custom-scroll::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-
-  .custom-scroll::-webkit-scrollbar-thumb {
-    background: #9ca3af;
-    border-radius: 10px;
-  }
-
-  .custom-scroll::-webkit-scrollbar-thumb:hover {
-    background: #6b7280;
   }
 
   /* Loading animation */
@@ -197,17 +78,6 @@
   * Image slider styles */ .image-slider-container {
     position: relative;
     overflow: hidden;
-  }
-
-  .image-slider {
-    display: flex;
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .slider-image {
-    flex-shrink: 0;
-    width: 100%;
-    height: 200px;
   }
 
   .slider-dots {
@@ -279,7 +149,6 @@
     opacity: 1;
   }
 
-  /* Hide navigation and dots for single images */
   .single-image .slider-nav {
     display: none;
   }
@@ -292,7 +161,7 @@
       <div class="flex justify-between items-center relative">
         <!-- Logo -->
         <a href="../">
-          <img class="h-8 sm:h-10" src="/images/logo.png" alt="logo">
+          <img class="h-8 sm:h-10" src="../images/logo.png" alt="logo">
         </a>
 
         <!-- Desktop Navigation -->
@@ -496,7 +365,7 @@
             <!-- Sort By and Filter Pills -->
             <div class="flex items-center gap-3">
               <!-- Sort By Dropdown -->
-              <div class="relative" x-data="{ open: false }">
+              <div class="relative" x-data="{ open: false }" x-data="{ open: false }">
                 <button @click="open = !open" @click.away="open = false"
                   class="flex items-center gap-2 px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-charcoal-500 focus:border-transparent transition-colors">
                   <i class="fas fa-sort text-gray-500"></i>
@@ -505,7 +374,7 @@
                     :class="{ 'rotate-180': open }"></i>
                 </button>
 
-                <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                <div x-show="open" style="display: none;" x-transition:enter="transition ease-out duration-200"
                   x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                   x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100"
                   x-transition:leave-end="opacity-0 scale-95"
@@ -576,7 +445,7 @@
       </div>
 
       <!-- Listings Grid -->
-      <div id="dress-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div id="dress-cards-container" class="px- grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Cards will be populated by JavaScript -->
       </div>
 
@@ -599,7 +468,7 @@
             <div class="lg:flex">
                 <div class="w-full pb-8 lg:w-2/5">
                     <a href="/">
-                        <img class="w-auto h-9" src="/images/logo.png" alt="logo">
+                        <img class="w-auto h-9" src="../images/logo.png" alt="logo">
                     </a>
                     <p class="max-w-sm text-xs text-charcoal-800">The Dress Marketplace.</p>
                     <div class="flex space-x-4 mt-4">
@@ -825,7 +694,7 @@
             label: "",
             category: 'Casual',
             description: 'Beautiful floral print summer dress, perfect for casual outings.Beautiful floral print summer dress, perfect for casual outings.',
-            images: ['https://instagowns.com/wp-content/uploads/2021/07/IMG_20171102_004356_4301-768x768.jpg', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop'],
+            images: ['https://instagowns.com/wp-content/uploads/2025/08/Screenshot_20250829_011813_Drive2.jpg.webp', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop'],
             seller: 'Sarah M.',
             location: 'New York, NY',
             timestamp: new Date()
@@ -838,10 +707,26 @@
             originalPrice: 550,
             size: 'M',
             color: 'Pink',
-            label: 'Wow!',
+            label: 'Sold',
             category: 'Casual',
             description: 'Beautiful floral print summer dress, perfect for casual outings.Beautiful floral print summer dress, perfect for casual outings.',
-            images: ['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop'],
+            images: ['https://instagowns.com/wp-content/uploads/2025/08/IMG_20250819_204608.jpg.webp'],
+            seller: 'Sarah M.',
+            location: 'New York, NY',
+            timestamp: new Date()
+          },
+          {
+            id: '1',
+            name: 'Floral Summer Dress',
+            brand: 'Zara',
+            price: 350,
+            originalPrice: 550,
+            size: 'M',
+            color: 'Pink',
+            label: 'Sold',
+            category: 'Casual',
+            description: 'Beautiful floral print summer dress, perfect for casual outings.Beautiful floral print summer dress, perfect for casual outings.',
+            images: ['https://instagowns.com/wp-content/uploads/2025/08/Mother-of-bride-gown-blocked-face-1.jpg.webp'],
             seller: 'Sarah M.',
             location: 'New York, NY',
             timestamp: new Date()
@@ -854,7 +739,7 @@
             originalPrice: 350,
             size: 'M',
             color: 'Pink',
-            label: 'Wow!',
+            label: '',
             category: 'Casual',
             description: 'Beautiful floral print summer dress, perfect for casual outings.Beautiful floral print summer dress, perfect for casual outings.',
             images: ['https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop', 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop'],
@@ -882,7 +767,7 @@
 
       createDressCard(dress) {
         const card = document.createElement("div");
-        card.className = "bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden animate-fadeInUp group";
+        card.className = "bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden animate-fadeInUp";
 
         const images = dress.images?.length > 0 ? dress.images : ['/images/placeholder-dress.jpg'];
         const price = Utils.formatCurrency(dress.price || 0);
@@ -890,7 +775,7 @@
         const savings = dress.originalPrice ? Math.round(((dress.originalPrice - dress.price) / dress.originalPrice) * 100) : 0;
 
         const imageSliderHTML = images.map(img =>
-          `<img loading="lazy" src="${img}" alt="Dress Image" class="slider-image object-cover">`
+          `<img loading="lazy" src="${img}" alt="Dress Image" class="flex-shrink-0 w-full h-[300px] object-contain bg-gray-50 slider-image">`
         ).join('');
 
         const dotsHTML = images.length > 1
@@ -905,9 +790,9 @@
 
         card.innerHTML = `
             <!-- Image Container -->
-<div class="relative w-full rounded-lg overflow-hidden image-slider-container ${images.length === 1 ? 'single-image' : ''}">
+<div class="relative w-full rounded-t-lg overflow-hidden image-slider-container ${images.length === 1 ? 'single-image' : ''}">
   <!-- Image slider -->
-  <div class="image-slider group-hover:scale-105 transition-transform duration-300" data-current="0">
+  <div class="flex transition-transform duration-300 ease-in-out image-slider" data-current="0">
     ${imageSliderHTML}
   </div>
   <!-- Navigation arrows -->
@@ -920,7 +805,7 @@
 
   <!-- label Badge -->
  ${dress.label ? `
-  <div class="absolute top-3 left-3 bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full border border-emerald-200">
+  <div class="absolute top-3 left-3 bg-red-100 text-red-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-200">
       ${dress.label}
    </div>
 ` : ''}
@@ -969,13 +854,13 @@
   <!-- Action Buttons -->
   <div class="flex gap-2">
     <button onclick='viewDressDetails(${Utils.escapeJSON(dress)})'
-    class="flex-1 bg-black text-white py-2.5 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+    class="flex-1 text-white py-2.5 px-4 rounded-lg font-medium bg-charcoal-800 text-cream-500 hover:bg-charcoal-900 transition-colors">
       View Details
     </button>
-    <button class="px-4 py-2.5 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors">
+    <button class="px-4 py-2.5 border border-charcoal-300 rounded-lg hover:border-charcoal-400 transition-colors">
       <i class="far fa-comment text-charcoal-600"></i>
     </button>
-    <button class="px-4 py-2.5 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors">
+    <button class="px-4 py-2.5 border border-charcoal-300 rounded-lg hover:border-charcoal-400 transition-colors">
       <i class="fas fa-share text-charcoal-600"></i>
     </button>
   </div>
