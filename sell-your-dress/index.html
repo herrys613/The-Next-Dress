@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Next Dress | Where Every Dress Finds Its Next Story</title>
     <meta name="title" content="The Next Dress | Where Every Dress Finds Its Next Story">
-    <meta name="description" content="Browse and compare top car lease deals on an easy-to-use platform.">
+    <meta name="description" content="(enter here discription)">
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="The Next Dress | Where Every Dress Finds Its Next Story">
-    <meta property="og:description" content="Browse and compare top car lease deals on an easy-to-use platform.">
+    <meta property="og:description" content="(enter here discription)">
     <meta property="og:url" content="https://thenextdress.com/">
     <meta property="og:image" content="https://thenextdress.com/images/home-social-preview.png">
 
@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="../style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind.config.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <style>
@@ -35,108 +36,89 @@
     .field-error {
         border-color: #ef4444 !important;
     }
-
-    .success-message {
-        color: #10b981;
-        background-color: #f0fdf4;
-        border: 1px solid #bbf7d0;
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-    }
-
-    .spinner {
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
 </style>
 
 <body>
     <!-- Navbar -->
-  <header class="bg-white border-b border-gray-200">
-    <nav x-data="{ isOpen: false }" class="max-w-[2000px] p-5 mx-auto lg:px-8 lg:py-5">
-      <div class="flex justify-between items-center relative">
-        <!-- Logo -->
-        <a href="../">
-          <img class="h-8 sm:h-10" src="../images/logo.png" alt="logo">
-        </a>
+    <header class="bg-white border-b border-gray-200">
+        <nav x-data="{ isOpen: false }" class="max-w-[2000px] p-5 mx-auto lg:px-8 lg:py-5">
+            <div class="flex justify-between items-center relative">
+                <!-- Logo -->
+                <a href="../">
+                    <img class="h-8 sm:h-10" src="../images/logo.png" alt="logo">
+                </a>
 
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 space-x-12">
-          <a href="../" class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Home</a>
-          <a href="../shop-collection/" class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Shop
-            Collection</a>
-          <a href="../sell-your-dress/" class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Sell
-            Your Dress</a>
-          <a href="../about-us/" class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">About
-            us</a>
-          <a href="../contact/" class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Contact</a>
-        </div>
-
-
-        <!-- Login -->
-        <div class="hidden lg:flex items-center">
-          <a class="block px-5 py-2 mt-4 text-sm text-center capitalize bg-charcoal-800 text-cream-500 hover:bg-charcoal-900 rounded-lg lg:mt-0 lg:w-auto"
-            href="../login/">
-            Log in
-          </a>
-        </div>
-
-        <!-- Mobile menu button -->
-        <div class="flex lg:hidden">
-          <button x-cloak @click="isOpen = !isOpen" type="button"
-            class="text-charcoal-800  hover:text-charcoal-900  focus:outline-none focus:text-charcoal-900"
-            aria-label="toggle menu">
-            <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
-            </svg>
-
-            <svg x-show="isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Mobile Menu open: "block", Menu closed: "hidden"-->
-      <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
-        class="lg:hidden absolute inset-x-0 transition-all duration-300 ease-in-out bg-white border-b border-gray-200 shadow-lg z-40">
-        <div class="px-4 py-6 space-y-4">
-          <a href="../"
-            class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Home</a>
-          <a href="../shop-collection/"
-            class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Shop
-            Collection</a>
-          <a href="../sell-your-dress/"
-            class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Sell
-            Your Dress</a>
-          <a href="../about-us/"
-            class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">About
-            us</a>
-          <a href="../contact/"
-            class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Contact</a>
-          <a class="block px-5 py-2 mt-4 text-sm text-center capitalize bg-charcoal-800 text-cream-500 hover:bg-charcoal-900 rounded-lg lg:mt-0 lg:w-auto"
-            href="../login/">
-            Log in
-          </a>
-        </div>
-      </div>
-    </nav>
-  </header>
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 space-x-12">
+                    <a href="../" class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Home</a>
+                    <a href="../shop-collection/"
+                        class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Shop
+                        Collection</a>
+                    <a href="../sell-your-dress/"
+                        class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Sell
+                        Your Dress</a>
+                    <a href="../about-us/"
+                        class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">About
+                        us</a>
+                    <a href="../contact/"
+                        class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Contact</a>
+                </div>
 
 
-    <div class="max-w-4xl mx-auto pt-20 px-6 space-y-8">
+                <!-- Login -->
+                <div class="hidden lg:flex items-center">
+                    <a class="block px-5 py-2 mt-4 text-sm text-center capitalize bg-charcoal-800 text-cream-500 hover:bg-charcoal-900 rounded-lg lg:mt-0 lg:w-auto"
+                        href="../login/">
+                        Log in
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex lg:hidden">
+                    <button x-cloak @click="isOpen = !isOpen" type="button"
+                        class="text-charcoal-800  hover:text-charcoal-900  focus:outline-none focus:text-charcoal-900"
+                        aria-label="toggle menu">
+                        <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+                        </svg>
+
+                        <svg x-show="isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu open: "block", Menu closed: "hidden"-->
+            <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
+                class="lg:hidden absolute inset-x-0 transition-all duration-300 ease-in-out bg-white border-b border-gray-200 shadow-lg z-40">
+                <div class="px-4 py-6 space-y-4">
+                    <a href="../"
+                        class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Home</a>
+                    <a href="../shop-collection/"
+                        class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Shop
+                        Collection</a>
+                    <a href="../sell-your-dress/"
+                        class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Sell
+                        Your Dress</a>
+                    <a href="../about-us/"
+                        class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">About
+                        us</a>
+                    <a href="../contact/"
+                        class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Contact</a>
+                    <a class="block px-5 py-2 mt-4 text-sm text-center capitalize bg-charcoal-800 text-cream-500 hover:bg-charcoal-900 rounded-lg lg:mt-0 lg:w-auto"
+                        href="../login/">
+                        Log in
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="max-w-3xl mx-auto pt-20 px-6 space-y-8">
         <!-- Page Header -->
         <div class="text-center">
             <h1 class="text-3xl font-luxury font-bold text-charcoal-800 mb-2">Sell Your Dress</h1>
@@ -144,24 +126,27 @@
         </div>
 
         <!-- Selling Tips -->
-        <div
-            class="max-w-4xl mx-auto bg-cream-500 border border-cream-600 rounded-xl p-6 flex space-x-4">
+        <div class="max-w-4xl mx-auto bg-cream-500 border border-cream-600 rounded-xl p-6 flex space-x-4">
             <div>
                 <h3 class="text-lg font-semibold text-warm-gray-700 mb-3">Sell Smart, Sell Fast</h3>
                 <ul class="space-y-2 text-sm text-warm-gray-600 leading-relaxed ">
-                    <li><span class="text-warm-gray-700 font-semibold">Photos First:</span> Clear, full-length shots in good light. Include
+                    <li><span class="text-warm-gray-700 font-semibold">Photos First:</span> Clear, full-length shots in
+                        good light. Include
                         front, back, and close-up details.</li>
-                    <li><span class="text-warm-gray-700 font-semibold">On a Person:</span> Dresses show best when modeled, not on hangers.
+                    <li><span class="text-warm-gray-700 font-semibold">On a Person:</span> Dresses show best when
+                        modeled, not on hangers.
                     </li>
-                    <li><span class="text-warm-gray-700 font-semibold">Pricing:</span> Most sellers list around half the original price.
+                    <li><span class="text-warm-gray-700 font-semibold">Pricing:</span> Most sellers list around half the
+                        original price.
                         Want it gone fast? Price it lower for a quick sale.</li>
-                    <li><span class="text-warm-gray-700 font-semibold">Be Specific:</span> Highlight fit, fabric, and features shoppers
+                    <li><span class="text-warm-gray-700 font-semibold">Be Specific:</span> Highlight fit, fabric, and
+                        features shoppers
                         care about.</li>
                 </ul>
             </div>
         </div>
 
-        <form id="dress-form" class="py-8 space-y-6" novalidate>
+        <form id="dress-form" class="py- space-y-6" novalidate>
             <!-- Seller Information -->
             <section class="px-1 space-y-6">
                 <div class="flex items-center space-x-3">
@@ -170,7 +155,7 @@
                     </div>
                     <div>
                         <h2 class="text-xl font-semibold text-charcoal-800">Seller Information</h2>
-                        <p class="text-sm text-gray-500">Tell us a bit about yourself</p>
+                        <p class="text-sm text-gray-500">Provide your contact details</p>
                     </div>
                 </div>
 
@@ -180,7 +165,7 @@
                             First Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" id="first-name" name="firstName" required autocomplete="given-name"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200"
                             placeholder="Enter your first name" />
                         <p class="error-message" id="first-name-error">Please enter your first name</p>
                     </div>
@@ -190,7 +175,7 @@
                             Last Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" id="last-name" name="lastName" required autocomplete="family-name"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200"
                             placeholder="Enter your last name" />
                         <p class="error-message" id="last-name-error">Please enter your last name</p>
                     </div>
@@ -200,7 +185,7 @@
                             Phone Number <span class="text-red-500">*</span>
                         </label>
                         <input type="tel" id="phone" name="phone" required autocomplete="tel"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200"
                             placeholder="(555) 123-4567" />
                         <p class="error-message" id="phone-error">Please enter a valid phone number</p>
                     </div>
@@ -210,36 +195,36 @@
                             Email Address <span class="text-red-500">*</span>
                         </label>
                         <input type="email" id="email" name="email" required autocomplete="email"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200"
                             placeholder="your.email@example.com" />
                         <p class="error-message" id="email-error">Please enter a valid email address</p>
                     </div>
                 </div>
 
                 <!-- Contact Preferences -->
-                <div class="space-y-3">
-                    <label class="block text-sm font-medium text-gray-700">
+                <div class="p-6 bg-gray-50 rounded-xl space-y-3">
+                    <label class="block  text-sm font-medium text-gray-700">
                         Preferred Contact Methods <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500">Select at least one way buyers can contact you</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" name="contactMethods" value="phone"
+                            <input type="checkbox" name="contactMethods" value="Phone Call"
                                 class="form-checkbox h-4 w-4 text-cream-900 rounded focus:ring-cream-800">
                             <span class="text-sm text-gray-700">Phone Call</span>
                         </label>
                         <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" name="contactMethods" value="text"
+                            <input type="checkbox" name="contactMethods" value="Text Message"
                                 class="form-checkbox h-4 w-4 text-cream-900 rounded focus:ring-cream-800">
                             <span class="text-sm text-gray-700">Text Message</span>
                         </label>
                         <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" name="contactMethods" value="whatsapp"
+                            <input type="checkbox" name="contactMethods" value="Whatsapp"
                                 class="form-checkbox h-4 w-4 text-cream-900 rounded focus:ring-cream-800">
                             <span class="text-sm text-gray-700">WhatsApp</span>
                         </label>
                         <label class="flex items-center space-x-3 cursor-pointer">
-                            <input type="checkbox" name="contactMethods" value="email"
+                            <input type="checkbox" name="contactMethods" value="Email"
                                 class="form-checkbox h-4 w-4 text-cream-900 rounded focus:ring-cream-800">
                             <span class="text-sm text-gray-700">Email</span>
                         </label>
@@ -264,21 +249,21 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
-                        <label for="dress-name" class="block text-sm font-medium text-gray-700">
-                            Dress Name <span class="text-red-500">*</span>
+                        <label for="dress-title" class="block text-sm font-medium text-gray-700">
+                            Dress Title <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="dress-name" name="dressName" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                            placeholder="e.g. Evening Gown, Cocktail Dress" />
-                        <p class="error-message" id="dress-name-error">Please enter the dress name</p>
+                        <input type="text" id="dress-title" name="dressTitle" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200"
+                            placeholder="e.g. Elegant Evening Gown" />
+                        <p class="error-message" id="dress-title-error">Please enter the dress Title</p>
                     </div>
 
                     <div class="space-y-2">
                         <label for="dress-brand" class="block text-sm font-medium text-gray-700">
-                            Brand <span class="text-red-500">*</span>
+                            Brand
                         </label>
                         <input type="text" id="dress-brand" name="dressBrand" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200"
                             placeholder="e.g. Designer name or brand" />
                         <p class="error-message" id="dress-brand-error">Please enter the brand name</p>
                     </div>
@@ -313,9 +298,11 @@
                                 <p class="text-xs text-gray-400">PNG, JPG up to 5MB each • Maximum 5 photos</p>
                             </div>
                         </label>
+
                     </div>
 
                     <div id="image-preview" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mt-4"></div>
+                    <p class="text-sm text-gray-500">First photo is used as the cover</p>
                     <p class="error-message" id="photos-error">Please upload at least one photo</p>
                 </div>
             </section>
@@ -335,98 +322,46 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <label for="dress-size" class="block text-sm font-medium text-gray-700">
-                            Size <span class="text-red-500">*</span>
-                        </label>
-                        <select id="dress-size" name="dressSize" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 custom-scroll">
-                            <option value="">Select Size</option>
-                            <option value="0-32">0 - 32</option>
-                            <option value="2-34">2 - 34</option>
-                            <option value="4-36">4 - 36</option>
-                            <option value="6-38">6 - 38</option>
-                            <option value="8-40">8 - 40</option>
-                            <option value="10-42">10 - 42</option>
-                            <option value="12-44">12 - 44</option>
-                            <option value="14-46">14 - 46</option>
-                            <option value="16-48">16 - 48</option>
-                            <option value="18-50">18 - 50</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <p class="error-message" id="dress-size-error">Please select a size</p>
+                    <div class="space-y-2 relative" id="size-container">
+                        <label class="block text-sm font-medium text-gray-700">Size <span
+                                class="text-red-500">*</span></label>
+                        <div class="custom-select w-full" data-placeholder="Select Size" data-name="size"
+                            data-options='["0-32","2-34","4-36","6-38","8-40","10-42","12-44","14-46","16-48","18-50","Other"]'>
+                        </div>
+                        <p class="error-message" id="size-error">Please select a size
+                        </p>
                     </div>
 
-                    <div class="space-y-2">
-                        <label for="dress-color" class="block text-sm font-medium text-gray-700">
-                            Color <span class="text-red-500">*</span>
-                        </label>
-                        <select id="dress-color" name="dressColor" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 custom-scroll">
-                            <option value="">Select Color</option>
-                            <option value="black">Black</option>
-                            <option value="blue">Blue</option>
-                            <option value="brown">Brown</option>
-                            <option value="gold">Gold</option>
-                            <option value="green">Green</option>
-                            <option value="grey">Grey</option>
-                            <option value="ivory">Ivory</option>
-                            <option value="multi">Multi</option>
-                            <option value="orange">Orange</option>
-                            <option value="pink">Pink</option>
-                            <option value="purple">Purple</option>
-                            <option value="red">Red</option>
-                            <option value="silver">Silver</option>
-                            <option value="white">White</option>
-                            <option value="yellow">Yellow</option>
-                        </select>
-                        <p class="error-message" id="dress-color-error">Please select a color</p>
+                    <div class="space-y-2 relative" id="color-container">
+                        <label class="block text-sm font-medium text-gray-700">Color <span
+                                class="text-red-500">*</span></label>
+                        <div class="custom-select w-full" data-placeholder="Select Color" data-name="color"
+                            data-options='["Multi","Black","Blue","Brown","Gold","Green","Grey","Ivory","Orange","Pink","Purple","Red","Silver","White","Yellow","Other"]'>
+                        </div>
+                        <p class="error-message" id="color-error">Please select a color
+                        </p>
                     </div>
 
-                    <div class="space-y-2">
-                        <label for="dress-condition" class="block text-sm font-medium text-gray-700">
-                            Condition <span class="text-red-500">*</span>
-                        </label>
-                        <select id="dress-condition" name="dressCondition" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                            <option value="">Select Condition</option>
-                            <option value="new">New</option>
-                            <option value="used">Used</option>
-                        </select>
-                        <p class="error-message" id="dress-condition-error">Please select the condition</p>
+                    <div class="space-y-2 relative" id="condition-container">
+                        <label class="block text-sm font-medium text-gray-700">
+                            Condition <span class="text-red-500">*</span></label>
+                        <div class="custom-select w-full" data-placeholder="Select Condition" data-name="condition"
+                            data-options='["New","Used"]'>
+                        </div>
+                        <p class="error-message" id="condition-error">Please select a
+                            condition</p>
                     </div>
 
-                    <div class="space-y-2">
-                        <label for="dress-location" class="block text-sm font-medium text-gray-700">
-                            Location <span class="text-red-500">*</span>
-                        </label>
-                        <select id="dress-location" name="dressLocation" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 custom-scroll">
-                            <option value="" disabled selected>Select Location</option>
-                            <option value="Boro Park NY">Boro Park NY</option>
-                            <option value="Crown Heights NY">Crown Heights NY</option>
-                            <option value="Deal NJ">Deal NJ</option>
-                            <option value="Far Rockaway NY">Far Rockaway NY</option>
-                            <option value="Flatbush NY">Flatbush NY</option>
-                            <option value="Jackson NJ">Jackson NJ</option>
-                            <option value="Lakewood NJ">Lakewood NJ</option>
-                            <option value="Lawrence NY">Lawrence NY</option>
-                            <option value="Long Island NY">Long Island NY</option>
-                            <option value="Monroe NY">Monroe NY</option>
-                            <option value="Monsey NY">Monsey NY</option>
-                            <option value="Upstate NY">Upstate NY</option>
-                            <option value="Williamsburg NY">Williamsburg NY</option>
-                            <option value="Montreal - CA">Montreal - CA</option>
-                            <option value="Toronto - CA">Toronto - CA</option>
-                            <option value="London - UK">London - UK</option>
-                            <option value="Manchester - UK">Manchester - UK</option>
-                            <option value="Antwerp - EU">Antwerp - EU</option>
-                            <option value="Belgium - EU">Belgium - EU</option>
-                            <option value="Israel">Israel</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <p class="error-message" id="dress-location-error">Please select a location</p>
+                    <div class="space-y-2 relative" id="location-container">
+                        <label class="block text-sm font-medium text-gray-700">Location <span
+                                class="text-red-500">*</span></label>
+                        <div class="custom-select w-full" data-placeholder="Select Location" data-name="location"
+                            data-options='["Boro Park NY","Crown Heights NY","Deal NJ","Far Rockaway NY","Flatbush NY","Jackson NJ","Lakewood NJ","Lawrence NY","Long Island NY","Monroe NY","Monsey NY","Upstate NY","Williamsburg NY","Montreal - CA","Toronto - CA","London - UK","Manchester - UK","Antwerp - EU","Belgium - EU","Israel","Other"]'>
+                        </div>
+                        <p class="error-message" id="location-error">Please select a
+                            location</p>
                     </div>
+
                 </div>
             </section>
 
@@ -454,7 +389,7 @@
                                 class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">$</span>
                             <input type="number" id="dress-asking-price" name="askingPrice" placeholder="0.00" min="0"
                                 step="5.00" required
-                                class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" />
+                                class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200" />
                         </div>
                         <p class="error-message" id="dress-asking-price-error">Please enter a valid asking price</p>
                     </div>
@@ -468,7 +403,7 @@
                                 class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">$</span>
                             <input type="number" id="dress-paid" name="originalPrice" placeholder="0.00" min="0"
                                 step="5.00" required
-                                class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" />
+                                class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200" />
                         </div>
                         <p class="error-message" id="dress-paid-error">Please enter the original price paid</p>
                     </div>
@@ -512,31 +447,119 @@
                     </label>
                     <textarea id="dress-description" name="description" rows="6" maxlength="500"
                         placeholder="Describe special features, occasions it's perfect for, alterations made, or any other relevant details that might interest buyers..."
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 custom-scroll resize-none"></textarea>
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900 focus:border-transparent transition-all duration-200 custom-scroll resize-none"></textarea>
                     <div class="flex justify-between items-center text-xs text-gray-500">
                         <span>Optional but recommended for better visibility</span>
                         <span id="char-count">0/500</span>
                     </div>
                 </div>
-            </section>
-
-            <hr class="border-gray-200">
-
-            <!-- Form Actions -->
-            <div class="flex flex-col sm:flex-row gap-3">
-                <button type="button" onclick="resetForm()"
+                <button id="reset-btn"
                     class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 font-medium transition-colors duration-200">
                     <i class="fas fa-undo mr-2"></i>Reset Form
                 </button>
+            </section>
+
+
+            <hr class="border-gray-200">
+            <!-- Header -->
+            <div class="py-8 space-y-6">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Complete Payment</h2>
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-600">
+                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span>Secure payment processing by Stripe</span>
+                    </div>
+                </div>
+
+                <!-- Card Element Container -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                        Card Information
+                    </label>
+                    <div id="card-element"
+                        class="border border-gray-300 rounded-lg p-4 bg-white transition-colors focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
+                        <!-- Stripe Elements will insert the card input here -->
+                    </div>
+                    <div id="card-errors" class="text-red-500 text-sm min-h-[1.25rem]"></div>
+
+                    <!-- Coupon Code -->
+                    <div class="space-y-2">
+                        <label for="coupon-code" class="block text-sm font-medium text-gray-700">Coupon Code</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="coupon-code" placeholder="Enter coupon"
+                                class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            <button type="button" id="apply-coupon"
+                                class="px-4 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors">Apply</button>
+                        </div>
+                        <p id="coupon-message" class="text-sm mt-1"></p>
+                    </div>
+                </div>
+
+
+                <!-- Order Summary -->
+                <div class="bg-gray-50 rounded-lg p-6 space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                        Order Summary
+                    </h3>
+
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center py-2">
+                            <div class="flex flex-col">
+                                <span class="text-gray-700 font-medium">Listing Fee</span>
+                                <span class="text-xs text-gray-500">One-time listing fee</span>
+                            </div>
+                            <span class="font-semibold text-gray-900" id="listing-fee">$29.99</span>
+                        </div>
+                        <!-- Discount row (hidden until applied) -->
+                        <div class="flex justify-between items-center py-2 hidden" id="discount-row">
+                            <span class="text-gray-700 font-medium">Discount</span>
+                            <span class="font-semibold text-gray-600" id="discount-amount">- $0.00</span>
+                        </div>
+
+                        <hr class="border-gray-200">
+
+                        <div class="flex justify-between items-center py-2">
+                            <span class="text-lg font-bold text-gray-900">Total</span>
+                            <span class="text-lg font-bold text-blue-600" id="order-total">$29.99</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Button -->
                 <button type="submit" id="submit-btn"
-                    class="px-8 py-3 bg-cream-800 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span id="submit-btn-text">Submit</span>
-                    <i id="submit-spinner" class="fas fa-spinner spinner ml-2 hidden"></i>
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-cream-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    Complete Secure Payment
                 </button>
-                </button>
+
+                <!-- Security Notice -->
+                <div class="text-center">
+                    <p class="text-xs text-gray-500 flex items-center justify-center gap-2">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        Your payment information is encrypted and secure
+                    </p>
+                </div>
             </div>
         </form>
     </div>
+
 
     <!-- Reset Confirmation Modal (Add this before the closing </body> tag) -->
     <div id="reset-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
@@ -598,8 +621,8 @@
                             <a href="/sell-your-dress/"
                                 class="block mt-2 text-sm text-charcoal-600  hover:underline">Sell
                                 Your Dress</a>
-                            <a href="/contact/"
-                                class="block mt-2 text-sm text-charcoal-600  hover:underline">Partner with
+                            <a href="/contact/" class="block mt-2 text-sm text-charcoal-600  hover:underline">Partner
+                                with
                                 Us</a>
                         </div>
 
@@ -608,8 +631,7 @@
                             <a href="/#faq" class="block mt-2 text-sm text-charcoal-600  hover:underline">FAQ</a>
                             <a href="/pricing/"
                                 class="block mt-2 text-sm text-charcoal-600  hover:underline">Pricing</a>
-                            <a href="/contact/"
-                                class="block mt-2 text-sm text-charcoal-600  hover:underline">Contact
+                            <a href="/contact/" class="block mt-2 text-sm text-charcoal-600  hover:underline">Contact
                                 Us</a>
                         </div>
 
@@ -617,8 +639,7 @@
                             <h3 class="text-charcoal-800 font-semibold ">Get in touch</h3>
                             <span class="block mt-2 text-sm text-charcoal-600  hover:underline">+1 (555)
                                 000-0000</span>
-                            <span
-                                class="block mt-2 text-sm text-charcoal-600  hover:underline">sample@gmail.com</span>
+                            <span class="block mt-2 text-sm text-charcoal-600  hover:underline">sample@gmail.com</span>
                         </div>
                     </div>
                 </div>
@@ -636,6 +657,9 @@
         </div>
     </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
     <script>
         // Character counter for description
         const descriptionTextarea = document.getElementById('dress-description');
@@ -652,46 +676,202 @@
             }
         });
 
-        // File upload handling
-        const dropzoneFile = document.getElementById('dropzone-file');
-        const imagePreview = document.getElementById('image-preview');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Coupon functionality
+        const applyCouponBtn = document.getElementById('apply-coupon');
+        const couponCodeInput = document.getElementById('coupon-code');
+        const couponMessage = document.getElementById('coupon-message');
+        const discountRow = document.getElementById('discount-row');
+        const discountAmount = document.getElementById('discount-amount');
+        const orderTotal = document.getElementById('order-total');
+
+        let basePrice = 29.99;
+        let discountValue = 0;
+
+        // On page load, set initial prices
+        document.getElementById("listing-fee").textContent = `$${basePrice.toFixed(2)}`;
+        document.getElementById("order-total").textContent = `$${basePrice.toFixed(2)}`;
+
+        const validCoupons = {
+            'SAVE10': { discount: 10, type: 'percentage' },
+            'FIRST15': { discount: 29.99, type: 'fixed' },
+            'WELCOME': { discount: 15, type: 'percentage' }
+        };
+
+        applyCouponBtn.addEventListener('click', function () {
+            const couponCode = couponCodeInput.value.trim().toUpperCase();
+
+            if (!couponCode) {
+                couponMessage.textContent = 'Please enter a coupon code';
+                couponMessage.className = 'text-sm mt-1 text-red-500';
+                return;
+            }
+
+            if (validCoupons[couponCode]) {
+                const coupon = validCoupons[couponCode];
+
+                if (coupon.type === 'percentage') {
+                    discountValue = (basePrice * coupon.discount) / 100;
+                } else {
+                    discountValue = coupon.discount;
+                }
+
+                // Ensure discount doesn't exceed the base price
+                discountValue = Math.min(discountValue, basePrice);
+
+                // Update UI
+                discountAmount.textContent = `- ${discountValue.toFixed(2)}`;
+                discountRow.classList.remove('hidden');
+                orderTotal.textContent = `${(basePrice - discountValue).toFixed(2)}`;
+
+                couponMessage.textContent = `Coupon applied! You saved $${discountValue.toFixed(2)}`;
+                couponMessage.className = 'text-sm mt-1 text-green-500';
+
+            } else {
+                // Invalid coupon → reset
+                discountValue = 0;
+                discountRow.classList.add('hidden');
+                orderTotal.textContent = `${basePrice.toFixed(2)}`;
+
+                couponMessage.textContent = 'Invalid coupon code';
+                couponMessage.className = 'text-sm mt-1 text-red-500';
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Image Handling
         let uploadedFiles = [];
 
-        dropzoneFile.addEventListener('change', handleFileSelect);
+        function initializeFileUpload() {
+            const dropzoneFile = document.getElementById('dropzone-file');
+            const dropzoneArea = dropzoneFile.parentElement;
+
+            // File selection handler
+            dropzoneFile.addEventListener('change', handleFileSelect);
+
+            // Drag and drop handlers
+            dropzoneArea.addEventListener('dragover', handleDragOver);
+            dropzoneArea.addEventListener('dragleave', handleDragLeave);
+            dropzoneArea.addEventListener('drop', handleDrop);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('border-cream-800', 'bg-cream-50');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('border-cream-800', 'bg-cream-50');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('border-cream-800', 'bg-cream-50');
+            const files = Array.from(e.dataTransfer.files);
+            processFiles(files);
+        }
 
         function handleFileSelect(event) {
             const files = Array.from(event.target.files);
-
-            // Limit to 10 files total
-            const remainingSlots = 5 - uploadedFiles.length;
-            const filesToAdd = files.slice(0, remainingSlots);
-
-            filesToAdd.forEach(file => {
-                if (file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) {
-                    uploadedFiles.push(file);
-                    displayImage(file, uploadedFiles.length - 1);
-                }
-            });
-
-            // Clear the input
-            event.target.value = '';
+            processFiles(files);
         }
 
+        function processFiles(files) {
+            const photosError = document.getElementById('photos-error');
+            const remainingSlots = 5 - uploadedFiles.length;
+
+            // Reset error
+            photosError.textContent = '';
+            photosError.style.display = 'none';
+
+            if (remainingSlots <= 0) {
+                photosError.textContent = 'Maximum 5 photos allowed';
+                photosError.style.display = 'block';
+                return;
+            }
+
+            const filesToAdd = files.slice(0, remainingSlots);
+            let errorShown = false;
+
+            filesToAdd.forEach(file => {
+                if (!file.type.startsWith('image/')) {
+                    if (!errorShown) {
+                        photosError.textContent = 'Only image files are allowed.';
+                        photosError.style.display = 'block';
+                        errorShown = true;
+                    }
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    if (!errorShown) {
+                        photosError.textContent = 'Some files were too large. Maximum size is 5MB per image.';
+                        photosError.style.display = 'block';
+                        errorShown = true;
+                    }
+                    return;
+                }
+
+                uploadedFiles.push(file);
+                displayImage(file, uploadedFiles.length - 1);
+            });
+
+            // Only validate if there is no other error
+            if (!errorShown) {
+                validatePhotos();
+            }
+        }
+
+
         function displayImage(file, index) {
+            const imagePreview = document.getElementById('image-preview');
             const reader = new FileReader();
 
             reader.onload = function (e) {
-                const imageContainer = document.createElement("div");
-                imageContainer.className =
-                    "relative aspect-square rounded-lg overflow-hidden bg-gray-100";
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'relative aspect-square rounded-lg overflow-hidden bg-gray-100';
+                imageContainer.setAttribute('data-index', index);
 
                 imageContainer.innerHTML = `
-      <img src="${e.target.result}" alt="Preview ${index + 1}" class="w-full h-full object-cover">
-      <button type="button" onclick="removeImage(${index})"  title="Remove image" class="absolute top-1 right-1 bg-red-500/90 
-      hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer text-sm">
-        <i class="fas fa-times"></i>
-      </button>
-    `;
+            <img src="${e.target.result}" alt="Preview ${index + 1}" class="w-full h-full object-cover">
+            <button type="button" onclick="removeImage(${index})" title="Remove image" 
+    class="absolute top-2 right-1 bg-red-500/90 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer text-sm">
+    <i class="fas fa-times"></i>
+  </button>
+            ${index === 0 ? '<div class="absolute bottom-1 left-1 bg-black bg-opacity-70 text-white text-xs px-1 rounded">Cover</div>' : ''}
+        `;
 
                 imagePreview.appendChild(imageContainer);
             };
@@ -699,308 +879,229 @@
             reader.readAsDataURL(file);
         }
 
-
         function removeImage(index) {
             uploadedFiles.splice(index, 1);
             refreshImagePreview();
+            validatePhotos();
         }
 
         function refreshImagePreview() {
+            const imagePreview = document.getElementById('image-preview');
             imagePreview.innerHTML = '';
             uploadedFiles.forEach((file, index) => {
                 displayImage(file, index);
             });
         }
 
-        // Form validation
-        function validateField(field, errorElement, validator) {
-            const isValid = validator(field.value);
+        function validatePhotos() {
+            const photosError = document.getElementById('photos-error');
 
-            if (isValid) {
-                field.classList.remove('field-error');
-                errorElement.style.display = 'none';
-            } else {
-                field.classList.add('field-error');
-                errorElement.style.display = 'block';
-            }
-
-            return isValid;
-        }
-
-        function validateEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-
-        function validatePhone(phone) {
-            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-            return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
-        }
-
-        function validateContactMethods() {
-            const checkboxes = document.querySelectorAll('input[name="contactMethods"]:checked');
-            const isValid = checkboxes.length > 0;
-
-            // Update visual feedback for contact methods
-            const contactContainer = document.querySelector('input[name="contactMethods"]').closest('.space-y-3');
-            const errorElement = document.getElementById('contact-methods-error');
-
-            if (isValid) {
-                contactContainer.classList.remove('field-error');
-                errorElement.style.display = 'none';
-            } else {
-                contactContainer.classList.add('field-error');
-                errorElement.style.display = 'block';
-            }
-
-            return isValid;
-        }
-
-        // Add event listeners for contact method checkboxes
-        document.addEventListener('DOMContentLoaded', function () {
-            const contactCheckboxes = document.querySelectorAll('input[name="contactMethods"]');
-            contactCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', validateContactMethods);
-            });
-        });
-
-        // Form submission with scroll to first error
-        document.getElementById('dress-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            let isValid = true;
-            let firstErrorField = null; // Track the first error field
-            const submitBtn = document.getElementById('submit-btn');
-            const submitBtnText = document.getElementById('submit-btn-text');
-            const submitSpinner = document.getElementById('submit-spinner');
-
-            // Validate required fields
-            const requiredFields = [
-                { field: 'first-name', validator: (val) => val.trim() !== '' },
-                { field: 'last-name', validator: (val) => val.trim() !== '' },
-                { field: 'phone', validator: validatePhone },
-                { field: 'email', validator: validateEmail },
-                { field: 'dress-name', validator: (val) => val.trim() !== '' },
-                { field: 'dress-brand', validator: (val) => val.trim() !== '' },
-                { field: 'dress-size', validator: (val) => val !== '' },
-                { field: 'dress-color', validator: (val) => val !== '' },
-                { field: 'dress-condition', validator: (val) => val !== '' },
-                { field: 'dress-location', validator: (val) => val !== '' },
-                { field: 'dress-asking-price', validator: (val) => val > 0 },
-                { field: 'dress-paid', validator: (val) => val > 0 }
-            ];
-
-            requiredFields.forEach(({ field, validator }) => {
-                const fieldElement = document.getElementById(field);
-                const errorElement = document.getElementById(field + '-error');
-
-                if (!validateField(fieldElement, errorElement, validator)) {
-                    isValid = false;
-                    // Capture the first error field encountered
-                    if (!firstErrorField) {
-                        firstErrorField = fieldElement;
-                    }
-                }
-            });
-
-            // Validate contact methods
-            if (!validateContactMethods()) {
-                isValid = false;
-                // If no previous error field and contact methods fail, set first checkbox as error field
-                if (!firstErrorField) {
-                    firstErrorField = document.querySelector('input[name="contactMethods"]');
-                }
-            }
-
-            // Validate photos
             if (uploadedFiles.length === 0) {
-                document.getElementById('photos-error').style.display = 'block';
-                isValid = false;
-                // If no previous error field and photos fail, set dropzone as error field
-                if (!firstErrorField) {
-                    firstErrorField = document.getElementById('dropzone-file');
-                }
-            } else {
-                document.getElementById('photos-error').style.display = 'none';
+                photosError.textContent = 'Please upload at least one photo';
+                photosError.style.display = 'block';
+                return false;
             }
 
-            if (!isValid) {
-                // Scroll to the first error field
-                if (firstErrorField) {
-                    firstErrorField.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
-                }
-
-                return;
-            }
-
-            // Show loading state
-            submitBtn.disabled = true;
-            submitBtnText.textContent = 'Creating Listing...';
-            submitSpinner.classList.remove('hidden');
-
-            // Simulate form submission (replace with actual submission logic)
-            setTimeout(() => {
-                submitBtn.disabled = false;
-                submitBtnText.textContent = 'Create Listing';
-                submitSpinner.classList.add('hidden');
-            }, 2000);
-        });
-
-        function resetForm() {
-            showResetModal();
+            photosError.textContent = '';
+            photosError.style.display = 'none';
+            return true;
         }
 
-        function showResetModal() {
-            document.getElementById('reset-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        }
+        // Initialize on page load
+        initializeFileUpload();
+        
+        // Custom dropdown & select 
+        function initializeCustomSelects() {
+            let openDropdown = null; // Keep track of the currently open dropdown
 
-        function hideResetModal() {
-            document.getElementById('reset-modal').classList.add('hidden');
-            document.body.style.overflow = ''; // Restore scrolling
-        }
+            document.querySelectorAll('.custom-select').forEach(container => {
+                const placeholder = container.dataset.placeholder;
+                const options = JSON.parse(container.dataset.options);
+                const name = container.dataset.name;
 
-        function performReset() {
-            try {
-                // Get the form element
-                const form = document.getElementById('dress-form');
-                if (!form) {
-                    console.error('Form element not found');
-                    return;
-                }
+                // Store selected value
+                container.selectedValue = '';
 
-                // Reset the form using native reset method
-                form.reset();
+                // Create selected box
+                const selectBox = document.createElement('div');
+                selectBox.className = 'w-full px-4 py-3 border border-gray-300 rounded-lg cursor-pointer flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-cream-900';
+                selectBox.innerHTML = `<span>${placeholder}</span><i class="fas fa-chevron-down text-gray-500 transition-transform duration-200"></i>`;
+                container.appendChild(selectBox);
 
-                // Clear uploaded files array
-                if (typeof uploadedFiles !== 'undefined') {
-                    uploadedFiles.length = 0;
-                }
-
-                // Clear image preview
-                const imagePreview = document.getElementById('image-preview');
-                if (imagePreview) {
-                    imagePreview.innerHTML = '';
-                }
-
-                // Clear submit message
-                const submitMessage = document.getElementById('submit-message');
-                if (submitMessage) {
-                    submitMessage.innerHTML = '';
-                }
-
-                // Reset character count for description
-                const charCount = document.getElementById('char-count');
-                if (charCount) {
-                    charCount.textContent = '0/500';
-                    charCount.classList.remove('text-red-500');
-                }
-
-                // Clear all field error styling
-                const fieldErrors = document.querySelectorAll('.field-error');
-                fieldErrors.forEach(field => {
-                    field.classList.remove('field-error');
+                // Create options container
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto hidden custom-scroll';
+                options.forEach(opt => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'px-4 py-2 hover:bg-gray-100 cursor-pointer';
+                    optionDiv.textContent = opt;
+                    if (opt.toLowerCase() === 'other') optionDiv.dataset.other = true;
+                    optionsContainer.appendChild(optionDiv);
                 });
+                container.appendChild(optionsContainer);
 
-                // Hide all error messages
-                const errorMessages = document.querySelectorAll('.error-message');
-                errorMessages.forEach(error => {
-                    error.style.display = 'none';
-                });
+                const selectedSpan = selectBox.querySelector('span');
+                const chevron = selectBox.querySelector('i');
 
-                // Reset the price negotiable toggle switch
-                const negotiableCheckbox = document.getElementById('dress-negotiable');
-                if (negotiableCheckbox) {
-                    negotiableCheckbox.checked = false;
-                }
+                // Toggle dropdown
+                selectBox.addEventListener('click', (e) => {
+                    e.stopPropagation();
 
-                // Reset contact methods error styling on container
-                const contactMethodsContainer = document.querySelector('input[name="contactMethods"]');
-                if (contactMethodsContainer) {
-                    const containerDiv = contactMethodsContainer.closest('.space-y-3');
-                    if (containerDiv) {
-                        containerDiv.classList.remove('field-error');
+                    // Close any other open dropdown
+                    if (openDropdown && openDropdown !== optionsContainer) {
+                        openDropdown.classList.add('hidden');
+                        openDropdown.previousSibling.querySelector('i').classList.remove('rotate-180');
                     }
-                }
 
-                // Reset submit button to normal state
-                const submitBtn = document.getElementById('submit-btn');
-                const submitBtnText = document.getElementById('submit-btn-text');
-                const submitSpinner = document.getElementById('submit-spinner');
-
-                if (submitBtn) submitBtn.disabled = false;
-                if (submitBtnText) submitBtnText.textContent = 'Submit';
-                if (submitSpinner) submitSpinner.classList.add('hidden');
-
-                // Hide the modal
-                hideResetModal();
-
-                // Scroll to top of form
-                form.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                    optionsContainer.classList.toggle('hidden');
+                    chevron.classList.toggle('rotate-180');
+                    openDropdown = optionsContainer.classList.contains('hidden') ? null : optionsContainer;
                 });
 
-            } catch (error) {
-                console.error('Error in reset function:', error);
-                alert('There was an error resetting the form. Please refresh the page.');
-                hideResetModal();
-            }
-        }
+                optionsContainer.querySelectorAll('div').forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
 
-        // Event listeners for modal buttons
-        document.addEventListener('DOMContentLoaded', function () {
-            // Cancel reset button
-            document.getElementById('cancel-reset').addEventListener('click', hideResetModal);
+                        if (option.dataset.other) {
+                            const category = placeholder.replace(/^Select\s+/i, ''); // Extract category name
+                            const input = document.createElement('input');
+                            input.type = 'text';
+                            input.placeholder = `Enter custom ${category.toLowerCase()}`;
+                            input.className = 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cream-900';
+                            selectBox.replaceWith(input);
+                            optionsContainer.classList.add('hidden');
+                            chevron.classList.remove('rotate-180');
 
-            // Confirm reset button
-            document.getElementById('confirm-reset').addEventListener('click', performReset);
+                            input.focus();
 
-            // Close modal when clicking outside
-            document.getElementById('reset-modal').addEventListener('click', function (e) {
-                if (e.target === this) {
-                    hideResetModal();
-                }
-            });
-
-            // Close modal with Escape key
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && !document.getElementById('reset-modal').classList.contains('hidden')) {
-                    hideResetModal();
-                }
-            });
-        });
-
-        // Real-time validation
-        document.addEventListener('DOMContentLoaded', function () {
-            const fields = document.querySelectorAll('input[required], select[required]');
-
-            fields.forEach(field => {
-                field.addEventListener('blur', function () {
-                    const errorElement = document.getElementById(this.id + '-error');
-                    if (errorElement) {
-                        let validator;
-
-                        switch (this.type) {
-                            case 'email':
-                                validator = validateEmail;
-                                break;
-                            case 'tel':
-                                validator = validatePhone;
-                                break;
-                            case 'number':
-                                validator = (val) => val > 0;
-                                break;
-                            default:
-                                validator = (val) => val.trim() !== '';
+                            input.addEventListener('blur', () => {
+                                if (input.value.trim() === '') {
+                                    container.selectedValue = '';
+                                    container.innerHTML = '';
+                                    container.appendChild(selectBox);
+                                    container.appendChild(optionsContainer);
+                                    selectedSpan.textContent = placeholder;
+                                } else {
+                                    selectedSpan.textContent = input.value;
+                                    selectedSpan.textContent = input.value;
+                                    container.innerHTML = '';
+                                    container.appendChild(selectBox);
+                                    container.appendChild(optionsContainer);
+                                }
+                            });
+                        } else {
+                            container.selectedValue = option.textContent;
+                            selectedSpan.textContent = option.textContent;
+                            optionsContainer.classList.add('hidden');
+                            chevron.classList.remove('rotate-180');
                         }
 
-                        validateField(this, errorElement, validator);
+                        openDropdown = null;
+                    });
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', () => {
+                if (openDropdown) {
+                    openDropdown.classList.add('hidden');
+                    const chevron = openDropdown.previousSibling.querySelector('i');
+                    if (chevron) chevron.classList.remove('rotate-180');
+                    openDropdown = null;
+                }
+            });
+        }
+
+        // Initialize all custom selects on page load
+        initializeCustomSelects();
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("dress-form");
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                let isValid = true;
+
+                // ========== Basic text inputs ==========
+                const fields = [
+                    { id: "first-name", errorId: "first-name-error" },
+                    { id: "last-name", errorId: "last-name-error" },
+                    { id: "phone", errorId: "phone-error", regex: /^\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/ },
+                    { id: "email", errorId: "email-error", regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
+                    { id: "dress-title", errorId: "dress-title-error" },
+                    { id: "dress-brand", errorId: "dress-brand-error" },
+                    { id: "dress-asking-price", errorId: "dress-asking-price-error" },
+                    { id: "dress-paid", errorId: "dress-paid-error" }
+                ];
+
+                fields.forEach(f => {
+                    const input = document.getElementById(f.id);
+                    const errorEl = document.getElementById(f.errorId);
+                    if (!input.value.trim() || (f.regex && !f.regex.test(input.value.trim()))) {
+                        input.classList.add("field-error");
+                        errorEl.style.display = "block";
+                        isValid = false;
+                    } else {
+                        input.classList.remove("field-error");
+                        errorEl.style.display = "none";
                     }
                 });
+
+                // ========== Contact methods ==========
+                const contactMethods = document.querySelectorAll('input[name="contactMethods"]:checked');
+                const contactError = document.getElementById("contact-methods-error");
+                if (contactMethods.length === 0) {
+                    contactError.style.display = "block";
+                    isValid = false;
+                } else {
+                    contactError.style.display = "none";
+                }
+
+                // ========== Photos ==========
+                if (!window.uploadedFiles || uploadedFiles.length === 0) {
+                    document.getElementById("photos-error").style.display = "block";
+                    isValid = false;
+                } else {
+                    document.getElementById("photos-error").style.display = "none";
+                }
+
+                // ========== Custom selects ==========
+                const customSelects = [
+                { name: "size", errorId: "size-error" },
+                { name: "color", errorId: "color-error" },
+                { name: "condition", errorId: "condition-error" },
+                { name: "location", errorId: "location-error" }
+            ];
+
+            customSelects.forEach(sel => {
+                const container = document.querySelector(`[data-name="${sel.name}"]`);
+                const errorEl = document.getElementById(sel.errorId);
+                
+                if (!container || !container.selectedValue || container.selectedValue.trim() === '') {
+                    if (container) {
+                        const selectBox = container.querySelector('div');
+                        if (selectBox) selectBox.classList.add("field-error");
+                    }
+                    errorEl.style.display = "block";
+                    isValid = false;
+                } else {
+                    const selectBox = container.querySelector('div');
+                    if (selectBox) selectBox.classList.remove("field-error");
+                    errorEl.style.display = "none";
+                }
+            });
+                // ========== Final check ==========
+                // Final check
+            if (isValid) {
+                console.log("Form valid ✅ — proceed to Stripe payment flow");
+                // Add your Stripe payment processing here
+            } else {
+                console.log("Form has errors ❌");
+                // Scroll to first error
+                const firstError = document.querySelector('.error-message[style*="block"], .field-error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
             });
         });
     </script>
