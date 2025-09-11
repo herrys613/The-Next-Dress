@@ -687,12 +687,6 @@
         cardElement.mount("#card-element");
 
 
-
-
-
-
-
-
         // Character counter for description
         const descriptionTextarea = document.getElementById('dress-description');
         const charCount = document.getElementById('char-count');
@@ -709,23 +703,10 @@
         });
 
 
+        // ========================================
+        // COUPON SYSTEM 
+        // ========================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Coupon functionality
         const applyCouponBtn = document.getElementById('apply-coupon');
         const couponCodeInput = document.getElementById('coupon-code');
         const couponMessage = document.getElementById('coupon-message');
@@ -800,23 +781,10 @@
             }
         });
 
+        // ========================================
+        // IMAGE HANDLING
+        // ========================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Image Handling
         let uploadedFiles = [];
 
         function initializeFileUpload() {
@@ -958,24 +926,12 @@
 
 
 
+        // ========================================
+        // Custom dropdown & select
+        // ======================================== 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Custom dropdown & select 
         function initializeCustomSelects() {
-            let openDropdown = null; // Keep track of the currently open dropdown
+            let openDropdown = null;
 
             document.querySelectorAll('.custom-select').forEach(container => {
                 const placeholder = container.dataset.placeholder;
@@ -1078,15 +1034,9 @@
         // Initialize all custom selects on page load
         initializeCustomSelects();
 
-
-
-
-
-
-
-
-
-
+        // ========================================
+        // COLLECT FORM DATA
+        // ========================================
 
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("dress-form");
@@ -1175,53 +1125,68 @@
                     const totalAmount = parseFloat(document.getElementById("order-total").textContent.replace('$', ''));
 
                     // Function to save to Firestore
-                    const saveToFirestore = () => {
-                        const formData = {
-                            sellerInfo: {
-                                firstName: document.getElementById("first-name").value.trim(),
-                                lastName: document.getElementById("last-name").value.trim(),
-                                phone: document.getElementById("phone").value.trim(),
-                                email: document.getElementById("email").value.trim(),
-                                contactMethods: Array.from(document.querySelectorAll('input[name="contactMethods"]:checked')).map(el => el.value),
-                            },
-                            dressInfo: {
-                                title: document.getElementById("dress-title").value.trim(),
-                                brand: document.querySelector('[data-name="brand"]').selectedValue || '',
-                                category: document.querySelector('[data-name="category"]').selectedValue || '',
-                                size: document.querySelector('[data-name="size"]').selectedValue || '',
-                                color: document.querySelector('[data-name="color"]').selectedValue || '',
-                                condition: document.querySelector('[data-name="condition"]').selectedValue || '',
-                                location: document.querySelector('[data-name="location"]').selectedValue || '',
-                            },
-                            images: uploadedFiles.map(file => file.name), // Or URLs if uploaded to Firebase Storage
-                            pricing: {
-                                askingPrice: parseFloat(document.getElementById("dress-asking-price").value) || 0,
-                                originalPrice: parseFloat(document.getElementById("dress-paid").value) || 0,
-                                negotiable: document.getElementById("dress-negotiable").checked,
-                                totalAmount: totalAmount,
-                            },
-                            additionalInfo: {
-                                description: document.getElementById("dress-description").value.trim(),
-                            },
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                            status: 'pending',
-                            sold: false
-                        };
+                    const saveToFirestore = async () => {
+                        try {
+                            // 1. Upload each file to Firebase Storage and get URLs
+                            const uploadedURLs = [];
+                            for (const file of uploadedFiles) {
+                                const storageRef = firebase.storage().ref(`dressImages/${Date.now()}-${file.name}`);
+                                await storageRef.put(file);
+                                const downloadURL = await storageRef.getDownloadURL();
+                                uploadedURLs.push(downloadURL);
+                            }
 
+                            // 2. Build Firestore data with URLs
+                            const formData = {
+                                sellerInfo: {
+                                    firstName: document.getElementById("first-name").value.trim(),
+                                    lastName: document.getElementById("last-name").value.trim(),
+                                    phone: document.getElementById("phone").value.trim(),
+                                    email: document.getElementById("email").value.trim(),
+                                    contactMethods: Array.from(document.querySelectorAll('input[name="contactMethods"]:checked')).map(el => el.value),
+                                },
+                                dressInfo: {
+                                    title: document.getElementById("dress-title").value.trim(),
+                                    brand: document.querySelector('[data-name="brand"]').selectedValue || '',
+                                    category: document.querySelector('[data-name="category"]').selectedValue || '',
+                                    size: document.querySelector('[data-name="size"]').selectedValue || '',
+                                    color: document.querySelector('[data-name="color"]').selectedValue || '',
+                                    condition: document.querySelector('[data-name="condition"]').selectedValue || '',
+                                    location: document.querySelector('[data-name="location"]').selectedValue || '',
+                                },
+                                images: uploadedURLs,
+                                pricing: {
+                                    askingPrice: parseFloat(document.getElementById("dress-asking-price").value) || 0,
+                                    originalPrice: parseFloat(document.getElementById("dress-paid").value) || 0,
+                                    negotiable: document.getElementById("dress-negotiable").checked,
+                                    totalAmount: totalAmount,
+                                },
+                                additionalInfo: {
+                                    description: document.getElementById("dress-description").value.trim(),
+                                },
+                                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                                status: 'pending',
+                                sold: false
+                            };
 
-                        firebase.firestore().collection('dressListings').add(formData)
-                            .then(() => {
-                                alert("Payment successful and listing created!");
-                                submitBtn.disabled = false;
-                                submitBtn.textContent = "Complete Secure Payment";
-                                // Optionally, reset your form here
-                            })
-                            .catch(error => {
-                                console.error("Error adding document: ", error);
-                                alert("Payment succeeded but there was an error saving the listing.");
-                                submitBtn.disabled = false;
-                                submitBtn.textContent = "Complete Secure Payment";
-                            });
+                            // 3. Save to Firestore
+                            await firebase.firestore().collection('dressListings').add(formData);
+
+                            alert("✅ Payment successful and listing created!");
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = "Complete Secure Payment";
+
+                            // Reset form and images
+                            document.getElementById("dress-form").reset();
+                            uploadedFiles = [];
+                            document.getElementById("image-preview").innerHTML = '';
+
+                        } catch (error) {
+                            console.error("Error adding document: ", error);
+                            alert("⚠️ Payment succeeded but saving listing failed.");
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = "Complete Secure Payment";
+                        }
                     };
 
 
@@ -1262,10 +1227,6 @@
                 }
             });
         });
-
-
-
-
     </script>
 </body>
 

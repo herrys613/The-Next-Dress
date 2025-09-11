@@ -685,7 +685,7 @@
         AppState.dresses = [
           {
             id: '1',
-            name: 'Floral Summer Dress',
+            title: 'Floral Summer Dress',
             brand: 'Zara',
             price: 50,
             originalPrice: 60,
@@ -701,7 +701,7 @@
           },
           {
             id: '1',
-            name: 'Floral Summer Dress',
+            title: 'Floral Summer Dress',
             brand: 'Zara',
             price: 350,
             originalPrice: 550,
@@ -717,7 +717,7 @@
           },
           {
             id: '1',
-            name: 'Floral Summer Dress',
+            title: 'Floral Summer Dress',
             brand: 'Zara',
             price: 350,
             originalPrice: 550,
@@ -733,7 +733,7 @@
           },
           {
             id: '1',
-            name: 'Floral Summer Dress',
+            title: 'Floral Summer Dress',
             brand: 'Zara',
             price: 150,
             originalPrice: 350,
@@ -818,7 +818,7 @@
 <div class="p-6">
   <!-- Brand & Title -->
   <div class="mb-3">
-    <h3 class="font-bold text-charcoal-800 text-lg mb-1">${dress.name}</h3>
+    <h3 class="font-bold text-charcoal-800 text-lg mb-1">${dress.title}</h3>
     <p class="text-sm text-charcoal-600 font-medium">${dress.brand.toUpperCase()}</p>
   </div>
 
@@ -1164,7 +1164,7 @@
       }
     };
 
-    // ====== ADDITIONAL FUNCTIONALITY ======
+    // ====== Sorting Function ======
     let currentSort = 'newest';
 
     function sortDresses(sortType) {

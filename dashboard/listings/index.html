@@ -904,7 +904,7 @@
                 .map(cb => cb.nextElementSibling.textContent.trim());
 
             return {
-                seller: {
+                sellerInfo: {
                     firstName: document.getElementById("first-name").value.trim(),
                     lastName: document.getElementById("last-name").value.trim(),
                     phone: document.getElementById("phone").value.trim(),
@@ -912,8 +912,9 @@
                     contactOptions
                 },
                 dress: {
-                    name: document.getElementById("dress-name").value.trim(),
+                    title: document.getElementById("dress-title").value.trim(),
                     brand: document.getElementById("dress-brand").value.trim(),
+                    category: document.getElementById("dress-category").value.trim(),
                     size: document.getElementById("dress-size").value,
                     color: document.getElementById("dress-color").value,
                     condition: document.getElementById("dress-condition").value,
@@ -1007,13 +1008,13 @@
             const card = document.createElement("div");
             card.className = "bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 card-hover overflow-hidden animate-fadeInUp";
 
-            const mainImage = dress.images && dress.images.length > 0 ? dress.images[0] : '/images/placeholder-dress.jpg';
+            const mainImage = dress.images.imageUrls && dress.images.imageUrls.length > 0 ? dress.images.imageUrls[0] : '/images/placeholder-dress.jpg';
             const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(dress.pricing.askingPrice);
             const originalPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(dress.pricing.originalPrice);
 
             card.innerHTML = `
                 <div class="relative">
-                    <img src="${mainImage}" alt="${dress.dress.name}" 
+                    <img src="${mainImage}" alt="${dress.dress.title}" 
                          class="w-full h-60 object-cover" 
                          onerror="this.src='/images/placeholder-dress.jpg'">
                     <div class="absolute top-3 right-3 space-y-2">
@@ -1030,7 +1031,7 @@
                 </div>
                 <div class="p-4">
                     <div class="flex items-start justify-between mb-2">
-                        <h3 class="text-lg font-semibold text-gray-900 truncate">${dress.dress.name}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 truncate">${dress.dress.title}</h3>
                         <span class="text-lg font-bold text-primary-600">${formattedPrice}</span>
                     </div>
                     <p class="text-sm text-gray-600 mb-2">${dress.dress.brand}</p>
