@@ -10,13 +10,13 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Sell Your Dress | The Next Dress">
     <meta property="og:description" content="Sell your dress online in just a few clicks. Simple, smooth, and fast.">
-    <meta property="og:url" content="https://thenextdress.com/sell-your-dress/">
-    <meta property="og:image" content="https://thenextdress.com/images/sell-your-dress-social-preview.png">
+    <meta property="og:url" content="https://www.thenextdress.com/sell-your-dress/">
+    <meta property="og:image" content="https://www.thenextdress.com/images/sell-your-dress-social-preview.png">
     <meta property="og:image:alt" content="Sell Your Dress Online Easily at The Next Dress">
     <meta property="og:site_name" content="The Next Dress">
 
     <link rel="icon" type="image/png" href="/images/favicon.png" sizes="32x32">
-    <link rel="canonical" href="https://thenextdress.com/sell-your-dress/">
+    <link rel="canonical" href="https://www.thenextdress.com/sell-your-dress/">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/tailwind.config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-</script>
+</head>
 <style>
     .error-message {
         color: #ef4444;
@@ -44,23 +44,23 @@
         <nav x-data="{ isOpen: false }" class="max-w-[2000px] p-5 mx-auto lg:px-8 lg:py-5">
             <div class="flex justify-between items-center relative">
                 <!-- Logo -->
-                <a href="../">
-                    <img class="h-8 sm:h-10" src="../images/logo.png" alt="logo">
+                <a href="/">
+                    <img class="h-8 sm:h-10" src="/images/logo.png" alt="logo">
                 </a>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 space-x-12">
-                    <a href="../" class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Home</a>
-                    <a href="../shop-collection/"
+                    <a href="/" class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Home</a>
+                    <a href="/shop-collection/"
                         class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Shop
                         Collection</a>
-                    <a href="../sell-your-dress/"
+                    <a href="/sell-your-dress/"
                         class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Sell
                         Your Dress</a>
-                    <a href="../about-us/"
+                    <a href="/about-us/"
                         class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">About
                         us</a>
-                    <a href="../contact/"
+                    <a href="/contact/"
                         class="text-charcoal-800 hover:text-warm-gray-400 transition duration-300">Contact</a>
                 </div>
 
@@ -68,7 +68,7 @@
                 <!-- Login -->
                 <div class="hidden lg:flex items-center">
                     <a class="block px-5 py-2 mt-4 text-sm text-center capitalize bg-charcoal-800 text-cream-500 hover:bg-charcoal-900 rounded-lg lg:mt-0 lg:w-auto"
-                        href="../login/">
+                        href="/login/">
                         Log in
                     </a>
                 </div>
@@ -95,21 +95,21 @@
             <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
                 class="lg:hidden absolute inset-x-0 transition-all duration-300 ease-in-out bg-white border-b border-gray-200 shadow-lg z-40">
                 <div class="px-4 py-6 space-y-4">
-                    <a href="../"
+                    <a href="/"
                         class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Home</a>
-                    <a href="../shop-collection/"
+                    <a href="/shop-collection/"
                         class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Shop
                         Collection</a>
-                    <a href="../sell-your-dress/"
+                    <a href="/sell-your-dress/"
                         class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Sell
                         Your Dress</a>
-                    <a href="../about-us/"
+                    <a href="/about-us/"
                         class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">About
                         us</a>
-                    <a href="../contact/"
+                    <a href="/contact/"
                         class="block text-charcoal-800 hover:text-warm-gray-400 font-medium transition-colors duration-300">Contact</a>
                     <a class="block px-5 py-2 mt-4 text-sm text-center capitalize bg-charcoal-800 text-cream-500 hover:bg-charcoal-900 rounded-lg lg:mt-0 lg:w-auto"
-                        href="../login/">
+                        href="/login/">
                         Log in
                     </a>
                 </div>
@@ -644,7 +644,8 @@
                             <h3 class="text-charcoal-800 font-semibold ">Get in touch</h3>
                             <span class="block mt-2 text-sm text-charcoal-600  hover:underline">+1 (555)
                                 000-0000</span>
-                            <span class="block mt-2 text-sm text-charcoal-600  hover:underline">thenextdresscollection@gmail.com</span>
+                            <span
+                                class="block mt-2 text-sm text-charcoal-600  hover:underline">thenextdresscollection@gmail.com</span>
                         </div>
                     </div>
                 </div>
