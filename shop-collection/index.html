@@ -235,9 +235,6 @@
         </nav>
     </header>
 
-    <!-- Filter backdrop for mobile -->
-    <div id="filter-backdrop" class="filter-backdrop" onclick="closeFilterSidebar()"></div>
-
     <div class="max-w-[2000px] mx-auto flex flex-col md:flex-row md:min-h-screen relative">
         <!-- FilterSidebar -->
         <aside class="absolute top-0 left-0 z-50 h-full w-2/3 bg-white shadow-lg transform transition-transform duration-500
@@ -347,9 +344,13 @@
                 <div class="flex flex-col gap-4">
                     <!-- Title and Search Row -->
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div>
+                        <div class="flex items-center justify-between">
                             <h1 class="text-xl font-bold text-charcoal-800">Dress Listings</h1>
+                            <div class="text-xs text-charcoal-600 block md:hidden whitespace-nowrap">
+                                <span id="results-count">0</span> dresses found
+                            </div>
                         </div>
+
 
                         <!-- Search Bar -->
                         <div class="relative w-full sm:w-96">
@@ -359,7 +360,6 @@
                             <input id="search-bar" type="text" placeholder="Search your listings..."
                                 onkeyup="filterCars()" oninput="updateSuggestions()" autocomplete="off"
                                 class="w-full text-sm pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-charcoal-500 focus:border-transparent" />
-
                             <!-- Suggestions Dropdown -->
                             <ul id="dress-suggestions"
                                 class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto custom-scroll hidden">
@@ -428,8 +428,8 @@
                         </div>
 
                         <!-- Results Count -->
-                        <div class="text-xs text-charcoal-600">
-                            <span id="results-count">0</span> dresses found
+                        <div class="hidden md:block text-xs text-charcoal-600">
+                            <span id="results-count-desktop">0</span> dresses found
                         </div>
                     </div>
 
@@ -455,7 +455,7 @@
             </div>
 
             <!-- Listings Grid -->
-            <div id="dress-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-4 gap-6">
+            <div id="dress-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6">
                 <!-- Cards will be populated by JavaScript -->
             </div>
 
@@ -643,9 +643,6 @@
                 const images = dress.images?.length > 0 ? dress.images : ['/images/placeholder-dress.jpg'];
                 const price = formatCurrency(dress.pricing?.askingPrice || 0);
                 const originalPrice = dress.pricing?.originalPrice ? formatCurrency(dress.pricing.originalPrice) : null;
-                const savings = (dress.pricing?.originalPrice && dress.pricing?.askingPrice)
-                    ? Math.round(((dress.pricing.originalPrice - dress.pricing.askingPrice) / dress.pricing.originalPrice) * 100)
-                    : 0;
 
                 const imageSliderHTML = images.map(img =>
                     `<img loading="lazy" src="${img}" alt="Dress Image" class="flex-shrink-0 w-full h-[300px] object-contain slider-image">`
@@ -691,21 +688,18 @@
                <!-- Content -->
                <div class="p-6">
                  <!-- Brand & Title -->
-                 <div class="mb-3">
-                   <h3 class="font-bold text-charcoal-800 text-[clamp(16px,5vw,20px)] truncate">${dress.dressInfo.title}</h3>
+                 <div class="mb-4">
+                   <h3 class="font-bold text-charcoal-800 text-[clamp(14px,3.5vw,16px)] truncate">${dress.dressInfo.title}</h3>
                    <!--<p class="text-sm text-charcoal-600 font-medium">${dress.dressInfo.brand.toUpperCase()}</p>-->
                  </div>
                
                  <!-- Price Section -->
-                 <div class="mb-4">
+                 <div class="mb-6">
                    <div class="text-[clamp(16px,5vw,21px)] font-bold text-charcoal-700">
                      ${price}
                    </div>
                    <div class="text-[clamp(10px,3vw,13px)] text-gray-500">
                      Originally Paid ${originalPrice || "$ -"}
-                   </div>
-                   <div class="text-[clamp(10px,3vw,13px)] text-gray-500 mt-1">
-                     Save ${savings > 0 ? savings + "%" : "0%"}
                    </div>
                  </div>
                
@@ -1106,6 +1100,7 @@
             },
 
             resetFilters() {
+                // Reset filter state
                 AppState.filters = {
                     price: 5000,
                     sizes: [],
@@ -1115,15 +1110,34 @@
                     category: []
                 };
 
-                Utils.getElement('priceRange').value = 5000;
-                this.updatePriceLabel();
-                document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+                // Reset price slider
+                const priceSlider = Utils.getElement('priceRange');
+                if (priceSlider) {
+                    priceSlider.value = 5000;
+                    this.updatePriceLabel();
+                }
 
+                // Reset checkboxes
+                ['sizes', 'brands', 'colors', 'condition', 'category'].forEach(type => {
+                    const section = document.getElementById(`section-${type}`);
+                    if (section) {
+                        section.querySelectorAll('input.option').forEach(cb => cb.checked = false);
+                        const uncheckAll = section.querySelector('.uncheck-all');
+                        if (uncheckAll) uncheckAll.checked = false;
+                    }
+                });
+
+                // Reset filtered dresses
+                AppState.filteredDresses = [...AppState.dresses];
                 sortDresses(currentSort);
-                Utils.toggleElement(Utils.getElement("no-match-message"), false);
-                updateResultsCount(AppState.dresses.length);
 
+                // Update active filters UI
                 updateActiveFilters();
+
+                const sortLabel = document.getElementById('sort-label');
+                if (currentSort === '' && sortLabel) {
+                    sortLabel.textContent = "Sort By";
+                }
             },
 
             getCheckedValues(type) {
@@ -1150,7 +1164,7 @@
 
             if (AppState.filters.price < 5000) {
                 filtersHTML += `
-          <div class="filter-pill text-xs">
+          <div class="filter-pill text-xs bg-gray-200 rounded-full px-2 py-1 flex items-center gap-1 mr-1 mb-1 inline-flex">
             <span>Up to ${AppState.filters.price}</span>
             <i class="fas fa-times text-xs remove-filter" onclick="removeFilter('price')"></i>
           </div>
@@ -1160,9 +1174,9 @@
             ['sizes', 'brands', 'colors', 'condition', 'category'].forEach(filterType => {
                 AppState.filters[filterType].forEach(value => {
                     filtersHTML += `
-            <div class="filter-pill text-xs">
+            <div class="filter-pill text-xs bg-gray-200 rounded-full px-2 py-1 flex items-center gap-1 mr-1 mb-1 inline-flex">
               <span>${value}</span>
-              <i class="fas fa-times text-xs remove-filter" onclick="removeFilter('${filterType}', '${value}')"></i>
+              <i class="fas fa-times text-xs hover:cursor-pointer remove-filter" onclick="removeFilter('${filterType}', '${value}')"></i>
             </div>
           `;
                 });
@@ -1170,7 +1184,7 @@
 
             if (filtersHTML) {
                 filtersHTML += `
-          <button onclick="clearAllFilters()" class="text-xs text-pink-600 hover:text-pink-800 font-medium ml-2">
+          <button onclick="clearAllFilters()" class="text-xs text-charcoal-600 hover:text-charcoal-700 font-medium ml-2">
             Clear All
           </button>
         `;
@@ -1222,17 +1236,18 @@
         }
 
         function updateResultsCount(count) {
-            const resultsCount = document.getElementById('results-count');
-            if (resultsCount) {
-                resultsCount.textContent = count || 0;
-            }
+            const resultsCountMobile = document.getElementById('results-count');
+            const resultsCountDesktop = document.getElementById('results-count-desktop');
+            if (resultsCountMobile) resultsCountMobile.textContent = count || 0;
+            if (resultsCountDesktop) resultsCountDesktop.textContent = count || 0;
         }
+
 
         // ========================================
         // SORTING FUNCTION 
         // ========================================
 
-        let currentSort = 'newest';
+        let currentSort = '';
 
         function sortDresses(sortType) {
             currentSort = sortType;
@@ -1245,7 +1260,11 @@
                 'oldest': 'Oldest First',
                 'brand': 'Brand (A-Z)'
             };
-            sortLabel.textContent = labels[sortType] || 'Sort By';
+            if (sortType) {
+                sortLabel.textContent = labels[sortType] || 'Sort By';
+            } else {
+                sortLabel.textContent = 'Sort By';
+            }
 
             let dressesToSort = AppState.filteredDresses.length ? [...AppState.filteredDresses] : [...AppState.dresses];
 
@@ -1276,8 +1295,7 @@
         // ========================================
 
         function viewDressDetails(dress) {
-            
-            // Create and show dress details modal
+            // fallback values
             const images = dress.images?.length > 0 ? dress.images : ['/images/placeholder-dress.jpg'];
             const price = formatCurrency(dress.pricing?.askingPrice || 0);
             const originalPrice = dress.pricing?.originalPrice ? formatCurrency(dress.pricing.originalPrice) : null;
@@ -1285,72 +1303,85 @@
                 ? Math.round(((dress.pricing.originalPrice - dress.pricing.askingPrice) / dress.pricing.originalPrice) * 100)
                 : 0;
 
+            // contact button definitions (map type -> icon + field)
+            const contactOptions = {
+                whatsapp: { icon: "fab fa-whatsapp", field: "phone" },
+                call: { icon: "fas fa-phone", field: "phone" },
+                sms: { icon: "fas fa-sms", field: "phone" },
+                email: { icon: "fas fa-envelope", field: "email" }
+            };
+
+            // build buttons dynamically
+            let contactBtns = "";
+            for (const method of dress.sellerInfo.contactMethods || []) {
+                const key = method.toLowerCase().replace(" ", ""); // normalize, e.g. "Phone Call" -> "phonecall"
+                if (key.includes("whatsapp")) {
+                    contactBtns += createContactBtn("whatsapp", dress, contactOptions.whatsapp);
+                } else if (key.includes("phone")) {
+                    contactBtns += createContactBtn("call", dress, contactOptions.call);
+                } else if (key.includes("text")) {
+                    contactBtns += createContactBtn("sms", dress, contactOptions.sms);
+                } else if (key.includes("email")) {
+                    contactBtns += createContactBtn("email", dress, contactOptions.email);
+                }
+            }
+
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
             modal.innerHTML = `
             <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full animate-slideIn">
-             <!-- Modal Header -->
-             <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-2 rounded-t-xl">
-               <div class="flex items-center justify-between">
-                 <h2 class="text-[clamp(16px,5vw,18px)] font-semibold text-charcoal-800">Dress Details</h2>
-                 <button onclick="this.closest('.fixed').remove(); document.body.style.overflow='';" class="p-2 px-4 text-gray-400 hover:text-charcoal-600 rounded-lg transition-colors">
-                   <i class="fas fa-times text-xl"></i>
-                 </button>
-               </div>
-             </div>
-           
-             <div class="p-6 space-y-4">
-               <div class="space-y-2">
-                 <h3 class="text-charcoal-800 text-[clamp(16px,5vw,22px)] font-bold leading-tight">${dress.dressInfo.title}</h3>
-                 <p class="text-sm text-charcoal-600 font-medium">${dress.dressInfo.brand.toUpperCase()}</p>
-               </div>
-               ${dress.additionalInfo.description ? `
-               <div>
-                 <p class="text-charcoal-600 text-[clamp(12px,4vw,16px)] leading-snug">${dress.additionalInfo.description}</p>
-               </div>
-               ` : ''}
-
-               <!-- Price Section -->
-                 <div class="mb-4">
-                   <div class="text-[clamp(16px,5vw,21px)] font-bold text-charcoal-700">
-                     ${price}
-                   </div>
-                   <div class="text-[clamp(10px,3vw,13px)] text-gray-500">
-                     Originally Paid ${originalPrice || "$ -"}
-                   </div>
-                   <div class="text-[clamp(10px,3vw,13px)] text-gray-500 mt-1">
-                     Save ${savings > 0 ? savings + "%" : "0%"}
-                   </div>
-                 </div>
-           
-               <!-- Key Details Grid -->
-               <div class="grid gap-3">
-                 <div class="flex items-center gap-2">
-                   <i class="fas fa-ruler text-gray-400 text-[clamp(12px,4vw,16px)]"></i>
-                   <span class="text-[clamp(12px,4vw,16px)] text-gray-700">Size ${dress.dressInfo.size}</span>
-                 </div>
-                 <div class="flex items-center gap-2">
-                   <i class="fas fa-palette text-gray-400 text-[clamp(12px,4vw,16px)]"></i>
-                   <span class="text-[clamp(12px,4vw,16px)] text-gray-700">${dress.dressInfo.color}</span>
-                 </div>
-               </div>
-           
-               <div class="pt-4 border-t">
-                 <div class="flex justify-between text-sm text-charcoal-600 mb-3">
-                   <span><i class="fas fa-user mr-1"></i>Seller: ${dress.seller}</span>
-                   <span><i class="fas fa-map-marker-alt mr-1"></i>${dress.dressInfo.location}</span>
-                 </div>
-           
-                 <button onclick='contactSeller(
-  "${dress.dressInfo.title}",
-  "${dress.sellerInfo.phone}"
-)' class="w-full bg-charcoal-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-charcoal-700 transition-colors">
-  Contact Seller
-</button>
-               </div>
-             </div>
-           </div>
-            `;
+              <!-- Modal Header -->
+              <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-2 rounded-t-xl">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-[clamp(16px,5vw,18px)] font-semibold text-charcoal-800">Dress Details</h2>
+                  <button onclick="this.closest('.fixed').remove(); document.body.style.overflow='';" class="p-2 px-4 text-gray-400 hover:text-charcoal-600 rounded-lg transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                  </button>
+                </div>
+              </div>
+            
+              <div class="p-6 space-y-4">
+                <div class="space-y-2">
+                  <h3 class="text-charcoal-800 text-[clamp(14px,5vw,18px)] font-bold leading-tight">${dress.dressInfo.title}</h3>
+                  <p class="text-[clamp(10px,3vw,12px)] text-charcoal-600 font-medium">${dress.dressInfo.brand.toUpperCase()}</p>
+                </div>
+        
+                <div class="p-4 bg-gray-50 rounded-xl">
+                  <p class="text-charcoal-600 text-[clamp(10px,3vw,14px)] leading-snug">${dress.additionalInfo.description || "No additional info"}</p>
+                </div>
+            
+                <div class="pt-4 border-t">
+                  <div class="flex justify-between text-sm text-charcoal-600 mb-3">
+                    <span class="relative inline-flex items-center">
+                  <i class="fas fa-user mr-1"></i> Contact Seller
+                
+                  <!-- Tooltip Icon -->
+                  <span class="ml-1 relative group">
+                    <i class="fas fa-info-circle text-gray-400 text-xs cursor-pointer"></i>
+                    
+                    <!-- Tooltip Popup -->
+                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max bg-charcoal-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                      ${(dress.sellerInfo.contactMethods.some(m => ["Phone Call", "Text Message", "Whatsapp"].includes(m)) && dress.sellerInfo.phone)
+                    ? ` ${dress.sellerInfo.phone}<br>`
+                    : ''
+                }
+                      ${(dress.sellerInfo.contactMethods.includes("Email") && dress.sellerInfo.email)
+                    ? ` ${dress.sellerInfo.email}`
+                    : ''
+                }
+                    </div>
+                  </span>
+                </span>
+                <span><i class="fas fa-map-marker-alt mr-1"></i>${dress.dressInfo.location}</span>
+                  </div>
+        
+                  <div class="flex gap-2">
+                    ${contactBtns || `<p class="text-gray-500 text-sm">No contact methods available</p>`}
+                  </div>
+                </div>
+              </div>
+            </div>
+             `;
 
             document.body.appendChild(modal);
             document.body.style.overflow = 'hidden';
@@ -1363,11 +1394,36 @@
             });
         }
 
-        function contactSeller(dressTitle, phone) {
-  const message = `Hi, I'm interested in your "${dressTitle}" listing. Is it still available?`;
-  const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  window.open(whatsappUrl, '_blank');
-}
+        // helper to create each button
+        function createContactBtn(method, dress, option) {
+            const contactValue = dress.sellerInfo[option.field];
+            return `
+    <button onclick='contactSeller("${dress.dressInfo.title}", "${contactValue}", "${method}")'
+      class="flex-1 bg-charcoal-800 text-white py-3 rounded-lg hover:bg-charcoal-700 transition-colors flex items-center justify-center">
+      <i class="${option.icon} text-lg"></i>
+    </button>`;
+        }
+
+        function contactSeller(dressTitle, contact, method) {
+            const message = `Hi, I'm interested in your "${dressTitle}" listing. Is it still available?`;
+            switch (method) {
+                case "whatsapp":
+                    window.open(`https://wa.me/${contact}?text=${encodeURIComponent(message)}`, "_blank");
+                    break;
+                case "call":
+                    window.location.href = `tel:${contact}`;
+                    break;
+                case "sms":
+                    window.location.href = `sms:${contact}?body=${encodeURIComponent(message)}`;
+                    break;
+                case "email":
+                    const subject = encodeURIComponent(`Inquiry about "${dressTitle}"`);
+                    window.location.href = `mailto:${contact}?subject=${subject}&body=${encodeURIComponent(message)}`;
+                    break;
+            }
+        }
+
+
 
         // ====== GLOBAL FUNCTIONS (for HTML onclick handlers) ======
         function toggleSection(id) {
