@@ -526,7 +526,7 @@
                             <span class="font-semibold text-gray-900" id="listing-fee">$29.99</span>
                         </div>
                         <!-- Discount row (hidden until applied) -->
-                        <div class="flex justify-between items-center py-2 hidden" id="discount-row">
+                        <div class="justify-between items-center py-2 hidden" id="discount-row">
                             <span class="text-gray-700 font-medium">Discount</span>
                             <span class="font-semibold text-gray-600" id="discount-amount">- $0.00</span>
                         </div>
@@ -568,7 +568,7 @@
 
 
     <!-- Reset Confirmation Modal (Add this before the closing </body> tag) -->
-    <div id="reset-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div id="reset-modal" class="fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 animate-slideIn">
             <div class="p-6">
                 <div class="flex items-center mb-4">
@@ -756,7 +756,8 @@
 
                 // Update UI
                 discountAmount.textContent = `- $${discountValue.toFixed(2)}`;
-                discountRow.classList.remove('hidden');
+                discountRow.classList.remove("hidden");
+                discountRow.classList.add("flex");
                 orderTotal.textContent = `$${(basePrice - discountValue).toFixed(2)}`;
 
                 couponMessage.textContent = `Coupon applied! You saved $${discountValue.toFixed(2)}`;
@@ -765,7 +766,8 @@
             } else {
                 // Invalid coupon → reset
                 discountValue = 0;
-                discountRow.classList.add('hidden');
+                discountRow.classList.add("hidden");
+                discountRow.classList.remove("flex");
                 orderTotal.textContent = `${basePrice.toFixed(2)}`;
 
                 couponMessage.textContent = 'Invalid coupon code';

@@ -97,14 +97,14 @@
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.5);
         cursor: pointer;
         transition: all 0.2s ease;
         backdrop-filter: blur(4px);
     }
 
     .slider-dot.active {
-        background-color: rgba(255, 255, 255, 0.9);
+        background: white;
         transform: scale(1.2);
     }
 
@@ -265,7 +265,7 @@
                         <span id="icon-price">+</span>
                     </button>
                     <div id="section-price" class="mt-5 hidden">
-                        <input type="range" id="priceRange" min="100" max="2000" step="10" class="w-full" value="2000"
+                        <input type="range" id="priceRange" min="100" max="5000" step="100" class="w-full" value="5000"
                             oninput="updatePriceLabel()">
                         <p class="text-sm text-charcoal-600 mt-1">Up to $<span id="priceLabel">0</span></p>
                     </div>
@@ -465,10 +465,6 @@
                 <h3 class="text-lg font-medium text-charcoal-800 mb-2">No dresses found</h3>
                 <p class="text-charcoal-600">Try adjusting your search criteria or check back later for new listings</p>
             </div>
-
-            <div id="pagination-wrapper" class="my- flex justify-center">
-                <div id="pagination" class="pagination-buttons flex flex-wrap gap-2"></div>
-            </div>
         </main>
     </div>
 
@@ -568,47 +564,10 @@
             escapeJSON: (obj) => JSON.stringify(obj).replace(/"/g, '&quot;')
         };
 
-        // ====== TOAST NOTIFICATION SYSTEM ======
-        const Toast = {
-            show: (message, type = 'info') => {
-                const container = Utils.getElement('toast-container');
-                if (!container) return;
 
-                const toast = document.createElement('div');
-                const config = {
-                    success: { bg: 'bg-green-500', icon: 'fas fa-check-circle' },
-                    error: { bg: 'bg-red-500', icon: 'fas fa-exclamation-circle' },
-                    warning: { bg: 'bg-yellow-500', icon: 'fas fa-exclamation-triangle' },
-                    info: { bg: 'bg-blue-500', icon: 'fas fa-info-circle' }
-                };
-
-                const { bg, icon } = config[type] || config.info;
-
-                toast.className = `${bg} text-white px-4 py-3 rounded-lg shadow-lg flex items-center transform translate-x-full transition-transform duration-300`;
-                toast.innerHTML = `
-                                    <i class="${icon} mr-2"></i>
-                                     <span class="flex-1">${message}</span>
-                                      <button onclick="this.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
-                                        <i class="fas fa-times"></i>
-                                      </button>
-                                `;
-
-                container.appendChild(toast);
-
-                // Animate in
-                setTimeout(() => toast.classList.remove('translate-x-full'), 10);
-
-                // Auto remove
-                setTimeout(() => {
-                    if (toast.parentElement) {
-                        toast.classList.add('translate-x-full');
-                        setTimeout(() => toast.remove(), 300);
-                    }
-                }, 5000);
-            }
-        };
-
-        // ====== DRESS DATA MANAGEMENT ======
+        // ========================================
+        // DRESS DATA MANAGEMENT 
+        // ========================================
         function formatCurrency(value) {
             return new Intl.NumberFormat("en-US", {
                 style: "currency",
@@ -776,9 +735,6 @@
                      View Details
                    </button>
                    <button class="px-4 py-2.5 border border-charcoal-300 rounded-lg hover:border-charcoal-400 transition-colors">
-                     <i class="far fa-comment text-charcoal-600"></i>
-                   </button>
-                   <button class="px-4 py-2.5 border border-charcoal-300 rounded-lg hover:border-charcoal-400 transition-colors">
                      <i class="fas fa-share text-charcoal-600"></i>
                    </button>
                  </div>
@@ -809,7 +765,8 @@
                 let currentIndex = parseInt(slider.dataset.current) || 0;
                 const totalImages = images.length;
 
-                currentIndex = (currentIndex + direction + totalImages) % totalImages;
+                // Prevent sliding past first or last image
+                currentIndex = Math.min(Math.max(currentIndex + direction, 0), totalImages - 1);
 
                 slider.style.transform = `translateX(-${currentIndex * 100}%)`;
                 slider.dataset.current = currentIndex;
@@ -821,6 +778,9 @@
                 const container = dot.closest('.image-slider-container');
                 const slider = container.querySelector('.image-slider');
                 const dots = container.querySelectorAll('.slider-dot');
+                const images = slider.querySelectorAll('.slider-image');
+
+                index = Math.min(Math.max(index, 0), images.length - 1);
 
                 slider.style.transform = `translateX(-${index * 100}%)`;
                 slider.dataset.current = index;
@@ -843,91 +803,121 @@
                     return;
                 }
 
-                this.setupTouchEvents(slider, container);
-                this.setupMouseEvents(slider, container);
+                this.setupTouchEvents(slider, container, images);
+                this.setupMouseEvents(slider, container, images);
             },
 
-            setupTouchEvents(slider, container) {
-                let startX = 0;
-                let currentX = 0;
+            setupTouchEvents(slider, container, images) {
+                let startX = 0, startY = 0;
+                let currentX = 0, currentY = 0;
                 let isDragging = false;
+                let isHorizontal = null;
 
-                slider.addEventListener('touchstart', (e) => {
+                slider.addEventListener('touchstart', e => {
                     startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
                     isDragging = true;
+                    isHorizontal = null;
                     slider.style.transition = 'none';
                 });
 
-                slider.addEventListener('touchmove', (e) => {
+                slider.addEventListener('touchmove', e => {
                     if (!isDragging) return;
 
                     currentX = e.touches[0].clientX;
+                    currentY = e.touches[0].clientY;
+
+                    if (isHorizontal === null) {
+                        const diffX = Math.abs(currentX - startX);
+                        const diffY = Math.abs(currentY - startY);
+                        isHorizontal = diffX > diffY;
+                    }
+
+                    if (!isHorizontal) return;
+
                     const diff = currentX - startX;
                     const currentIndex = parseInt(slider.dataset.current) || 0;
-                    const translateX = -currentIndex * 100 + (diff / container.offsetWidth * 100);
 
+                    // Stop dragging past edges
+                    if ((currentIndex === 0 && diff > 0) || (currentIndex === images.length - 1 && diff < 0)) return;
+
+                    const translateX = -currentIndex * 100 + (diff / container.offsetWidth * 100);
                     slider.style.transform = `translateX(${translateX}%)`;
                 });
 
                 slider.addEventListener('touchend', () => {
                     if (!isDragging) return;
-
                     isDragging = false;
                     slider.style.transition = 'transform 0.3s ease-in-out';
 
                     const diff = currentX - startX;
                     const threshold = container.offsetWidth * 0.2;
+                    const currentIndex = parseInt(slider.dataset.current) || 0;
 
-                    if (Math.abs(diff) > threshold) {
+                    if (Math.abs(diff) > threshold && isHorizontal) {
                         const direction = diff > 0 ? -1 : 1;
                         const navButton = container.querySelector('.slider-nav.next');
                         this.slide(navButton, direction);
                     } else {
-                        const currentIndex = parseInt(slider.dataset.current) || 0;
                         slider.style.transform = `translateX(-${currentIndex * 100}%)`;
                     }
                 });
             },
 
-            setupMouseEvents(slider, container) {
-                let startX = 0;
-                let currentX = 0;
+            setupMouseEvents(slider, container, images) {
+                let startX = 0, startY = 0;
+                let currentX = 0, currentY = 0;
                 let isMouseDown = false;
+                let isHorizontal = null;
 
-                const handleMouseDown = (e) => {
+                const handleMouseDown = e => {
                     startX = e.clientX;
+                    startY = e.clientY;
                     isMouseDown = true;
+                    isHorizontal = null;
                     slider.style.transition = 'none';
                     slider.style.cursor = 'grabbing';
                 };
 
-                const handleMouseMove = (e) => {
+                const handleMouseMove = e => {
                     if (!isMouseDown) return;
 
                     currentX = e.clientX;
+                    currentY = e.clientY;
+
+                    if (isHorizontal === null) {
+                        const diffX = Math.abs(currentX - startX);
+                        const diffY = Math.abs(currentY - startY);
+                        isHorizontal = diffX > diffY;
+                    }
+
+                    if (!isHorizontal) return;
+
                     const diff = currentX - startX;
                     const currentIndex = parseInt(slider.dataset.current) || 0;
-                    const translateX = -currentIndex * 100 + (diff / container.offsetWidth * 100);
 
+                    // Stop dragging past edges
+                    if ((currentIndex === 0 && diff > 0) || (currentIndex === images.length - 1 && diff < 0)) return;
+
+                    const translateX = -currentIndex * 100 + (diff / container.offsetWidth * 100);
                     slider.style.transform = `translateX(${translateX}%)`;
                 };
 
                 const handleMouseEnd = () => {
                     if (!isMouseDown) return;
-
                     isMouseDown = false;
                     slider.style.transition = 'transform 0.3s ease-in-out';
                     slider.style.cursor = 'grab';
 
                     const diff = currentX - startX;
                     const threshold = container.offsetWidth * 0.2;
+                    const currentIndex = parseInt(slider.dataset.current) || 0;
 
-                    if (Math.abs(diff) > threshold) {
+                    if (Math.abs(diff) > threshold && isHorizontal) {
                         const direction = diff > 0 ? -1 : 1;
                         const navButton = container.querySelector('.slider-nav.next');
                         this.slide(navButton, direction);
                     } else {
-                        const currentIndex = parseInt(slider.dataset.current) || 0;
                         slider.style.transform = `translateX(-${currentIndex * 100}%)`;
                     }
                 };
@@ -937,7 +927,9 @@
                 slider.addEventListener('mouseup', handleMouseEnd);
                 slider.addEventListener('mouseleave', handleMouseEnd);
             }
-        }
+        };
+
+
 
         // ========================================
         // SEARCH AND FILTER FUNCTIONALITY 
@@ -950,6 +942,14 @@
             if (isHidden) {
                 sidebar.classList.remove('-translate-x-full');
                 sidebar.classList.add('translate-x-0');
+
+                // Collapse all filter sections
+                ['sizes', 'brands', 'colors', 'condition', 'category'].forEach(id => {
+                    const section = Utils.getElement(`section-${id}`);
+                    const icon = Utils.getElement(`icon-${id}`);
+                    section.classList.add('hidden');
+                    icon.textContent = '+';
+                });
             } else {
                 closeFilterSidebar();
             }
@@ -985,7 +985,6 @@
 
                 uncheckWrapper.querySelector('input').addEventListener('change', function () {
                     container.querySelectorAll('input.option').forEach(cb => cb.checked = false);
-                    SearchFilter.applyFilters();
                 });
 
                 list.forEach(item => {
@@ -1020,7 +1019,7 @@
             dresses: [],
             filteredDresses: [],
             filters: {
-                price: 500,
+                price: 5000,
                 sizes: [],
                 brands: [],
                 colors: [],
@@ -1042,9 +1041,8 @@
                 'Prada', 'Versace', 'Dolce & Gabbana', 'Chanel', 'Dior', 'Saint Laurent'],
             colors: ['Black', 'White', 'Gray', 'Navy', 'Beige', 'Pink', 'Red', 'Blue', 'Green', 'Yellow',
                 'Orange', 'Purple', 'Brown', 'Burgundy', 'Coral', 'Mint', 'Lavender', 'Gold', 'Silver'],
-            conditions: ['New with Tags', 'Excellent', 'Good', 'Fair'],
-            categories: ['Casual', 'Formal', 'Cocktail', 'Evening', 'Maxi', 'Mini', 'Midi', 'A-Line',
-                'Bodycon', 'Wrap', 'Shift', 'Sweater', 'Sundress', 'Little Black Dress']
+            conditions: ['New', 'Used'],
+            categories: ['Bridal', 'Mother of the Bride', 'Maternity', 'Kids']
         };
 
 
@@ -1078,14 +1076,18 @@
                 const filtered = AppState.dresses.filter(dress => {
                     const price = dress.pricing?.askingPrice || 0;
                     const matchesPrice = price <= AppState.filters.price;
-                    const matchesSize = AppState.filters.sizes.length === 0 || AppState.filters.sizes.includes(dress.dressInfo.size);
-                    const matchesBrand = AppState.filters.brands.length === 0 || AppState.filters.brands.includes(dress.dressInfo.brand);
-                    const matchesColor = AppState.filters.colors.length === 0 || AppState.filters.colors.includes(dress.dressInfo.color);
-                    const matchesCondition = AppState.filters.condition.length === 0 || AppState.filters.condition.includes(dress.dressInfo.condition);
-                    const matchesCategory = AppState.filters.category.length === 0 || AppState.filters.category.includes(dress.dressInfo.category);
+                    const matchesSize = AppState.filters.sizes.length === 0 || AppState.filters.sizes.includes(dress.dressInfo?.size);
+                    const matchesBrand = AppState.filters.brands.length === 0 || AppState.filters.brands.includes(dress.dressInfo?.brand);
+                    const matchesColor = AppState.filters.colors.length === 0 || AppState.filters.colors.includes(dress.dressInfo?.color);
+                    const matchesCondition = AppState.filters.condition.length === 0 || AppState.filters.condition.includes(dress.dressInfo?.condition);
+                    const matchesCategory = AppState.filters.category.length === 0 || AppState.filters.category.includes(dress.dressInfo?.category);
 
                     return matchesPrice && matchesSize && matchesBrand && matchesColor && matchesCondition && matchesCategory;
                 });
+
+                AppState.filteredDresses = filtered; // store filtered results
+
+                sortDresses(currentSort);
 
                 if (filtered.length === 0) {
                     Utils.toggleElement(Utils.getElement("no-match-message"), true);
@@ -1093,7 +1095,6 @@
                     updateResultsCount(0);
                 } else {
                     Utils.toggleElement(Utils.getElement("no-match-message"), false);
-                    DressManager.displayDresses(filtered);
                     updateResultsCount(filtered.length);
                 }
 
@@ -1106,7 +1107,7 @@
 
             resetFilters() {
                 AppState.filters = {
-                    price: 500,
+                    price: 5000,
                     sizes: [],
                     brands: [],
                     colors: [],
@@ -1114,11 +1115,11 @@
                     category: []
                 };
 
-                Utils.getElement('priceRange').value = 500;
+                Utils.getElement('priceRange').value = 5000;
                 this.updatePriceLabel();
                 document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
 
-                DressManager.displayDresses(AppState.dresses);
+                sortDresses(currentSort);
                 Utils.toggleElement(Utils.getElement("no-match-message"), false);
                 updateResultsCount(AppState.dresses.length);
 
@@ -1147,7 +1148,7 @@
 
             let filtersHTML = '';
 
-            if (AppState.filters.price < 500) {
+            if (AppState.filters.price < 5000) {
                 filtersHTML += `
           <div class="filter-pill text-xs">
             <span>Up to ${AppState.filters.price}</span>
@@ -1182,8 +1183,8 @@
         function removeFilter(type, value) {
             switch (type) {
                 case 'price':
-                    AppState.filters.price = 500;
-                    document.getElementById('priceRange').value = 500;
+                    AppState.filters.price = 5000;
+                    document.getElementById('priceRange').value = 5000;
                     updatePriceLabel();
                     break;
                 case 'sizes':
@@ -1246,28 +1247,28 @@
             };
             sortLabel.textContent = labels[sortType] || 'Sort By';
 
-            let sortedDresses = [...AppState.dresses];
+            let dressesToSort = AppState.filteredDresses.length ? [...AppState.filteredDresses] : [...AppState.dresses];
 
             switch (sortType) {
                 case 'price-low':
-                    sortedDresses.sort((a, b) => (a.price || 0) - (b.price || 0));
+                    dressesToSort.sort((a, b) => (a.pricing?.askingPrice || 0) - (b.pricing?.askingPrice || 0));
                     break;
                 case 'price-high':
-                    sortedDresses.sort((a, b) => (b.price || 0) - (a.price || 0));
+                    dressesToSort.sort((a, b) => (b.pricing?.askingPrice || 0) - (a.pricing?.askingPrice || 0));
                     break;
                 case 'newest':
-                    sortedDresses.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
+                    dressesToSort.sort((a, b) => (b.timestamp?.toMillis?.() || 0) - (a.timestamp?.toMillis?.() || 0));
                     break;
                 case 'oldest':
-                    sortedDresses.sort((a, b) => new Date(a.timestamp || 0) - new Date(b.timestamp || 0));
+                    dressesToSort.sort((a, b) => (a.timestamp?.toMillis?.() || 0) - (b.timestamp?.toMillis?.() || 0));
                     break;
                 case 'brand':
-                    sortedDresses.sort((a, b) => (a.brand || '').localeCompare(b.brand || ''));
+                    dressesToSort.sort((a, b) => (a.dressInfo?.brand || '').localeCompare(b.dressInfo?.brand || ''));
                     break;
             }
 
-            DressManager.displayDresses(sortedDresses);
-            updateResultsCount(sortedDresses.length);
+            DressManager.displayDresses(dressesToSort);
+            updateResultsCount(dressesToSort.length);
         }
 
         // ========================================
@@ -1275,6 +1276,7 @@
         // ========================================
 
         function viewDressDetails(dress) {
+            
             // Create and show dress details modal
             const images = dress.images?.length > 0 ? dress.images : ['/images/placeholder-dress.jpg'];
             const price = formatCurrency(dress.pricing?.askingPrice || 0);
@@ -1339,9 +1341,12 @@
                    <span><i class="fas fa-map-marker-alt mr-1"></i>${dress.dressInfo.location}</span>
                  </div>
            
-                 <button onclick='contactSeller("${dress.name}", "${dress.seller}")' class="w-full bg-charcoal-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-charcoal-700 transition-colors">
-                   Contact Seller
-                 </button>
+                 <button onclick='contactSeller(
+  "${dress.dressInfo.title}",
+  "${dress.sellerInfo.phone}"
+)' class="w-full bg-charcoal-800 text-white font-medium py-2 px-4 rounded-lg hover:bg-charcoal-700 transition-colors">
+  Contact Seller
+</button>
                </div>
              </div>
            </div>
@@ -1358,11 +1363,11 @@
             });
         }
 
-        function contactSeller(dressName, sellerName) {
-            const message = `Hi ${sellerName}, I'm interested in your "${dressName}" listing. Is it still available?`;
-            const whatsappUrl = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
+        function contactSeller(dressTitle, phone) {
+  const message = `Hi, I'm interested in your "${dressTitle}" listing. Is it still available?`;
+  const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank');
+}
 
         // ====== GLOBAL FUNCTIONS (for HTML onclick handlers) ======
         function toggleSection(id) {
@@ -1396,6 +1401,5 @@
         });
     </script>
     </body>
-
 
 </html>
