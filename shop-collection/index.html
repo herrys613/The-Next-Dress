@@ -434,7 +434,8 @@
                     </div>
 
                     <!-- Active Filters Pills (Mobile) -->
-                    <div id="active-filters-mobile" class="flex lg:hidden flex-wrap items-center gap-2">
+                    <div id="active-filters-mobile"
+                        class="flex lg:hidden items-center gap-2 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide">
                         <!-- Active filter pills for mobile will be populated here -->
                     </div>
                 </div>
@@ -1033,10 +1034,10 @@
                 'Ann Taylor', 'J.Crew', 'Kate Spade', 'Michael Kors', 'Coach', 'Diane von Furstenberg',
                 'Calvin Klein', 'Tommy Hilfiger', 'Ralph Lauren', 'Hugo Boss', 'Armani', 'Gucci',
                 'Prada', 'Versace', 'Dolce & Gabbana', 'Chanel', 'Dior', 'Saint Laurent'],
-            colors: ['Black', 'White', 'Gray', 'Navy', 'Beige', 'Pink', 'Red', 'Blue', 'Green', 'Yellow',
-                'Orange', 'Purple', 'Brown', 'Burgundy', 'Coral', 'Mint', 'Lavender', 'Gold', 'Silver'],
+            colors: ['Multi', 'Black', 'Blue', 'Brown', 'Gold', 'Green', 'Grey', 'Ivory', 'Orange',
+                'Pink', 'Purple', 'Red', 'Silver', 'White', 'Yellow'],
             conditions: ['New', 'Used'],
-            categories: ['Bridal', 'Mother of the Bride', 'Maternity', 'Kids']
+            categories: ['Bridal', 'Mother of the Bride/Groom', 'Sister of the Bride/Groom', 'Maternity', 'Kids']
         };
 
 
@@ -1399,7 +1400,7 @@
             const contactValue = dress.sellerInfo[option.field];
             return `
     <button onclick='contactSeller("${dress.dressInfo.title}", "${contactValue}", "${method}")'
-      class="flex-1 bg-charcoal-800 text-white py-3 rounded-lg hover:bg-charcoal-700 transition-colors flex items-center justify-center">
+      class="flex-1 bg-cream-900 text-white py-3 rounded-lg hover:bg-cream-800 transition-colors flex items-center justify-center">
       <i class="${option.icon} text-lg"></i>
     </button>`;
         }

@@ -57,3 +57,11 @@ body {
   .custom-scroll::-webkit-scrollbar-thumb:hover {
     background: #6b7280;
   }
+
+  #active-filters-mobile {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+#active-filters-mobile::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
