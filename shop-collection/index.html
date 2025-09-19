@@ -357,8 +357,8 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-search text-gray-400"></i>
                             </div>
-                            <input id="search-bar" type="text" placeholder="Search your listings..."
-                                onkeyup="filterCars()" oninput="updateSuggestions()" autocomplete="off"
+                            <input id="search-bar" type="text" placeholder="Search listings..." onkeyup="filterCars()"
+                                oninput="updateSuggestions()" autocomplete="off"
                                 class="w-full text-sm pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-charcoal-500 focus:border-transparent" />
                             <!-- Suggestions Dropdown -->
                             <ul id="dress-suggestions"
@@ -368,7 +368,7 @@
                     </div>
 
                     <!-- Controls Row - Sort By and Filter Pills -->
-                    <div class="flex items-center justify-between gap-4">
+                    <div class="flex items-center justify-between gap-3">
                         <!-- Sort By and Filter Pills -->
                         <div class="flex items-center gap-3">
                             <!-- Sort By Dropdown -->
@@ -406,10 +406,6 @@
                                             class="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors">
                                             Oldest First
                                         </button>
-                                        <button onclick="sortDresses('brand')"
-                                            class="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors">
-                                            Brand (A-Z)
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -425,11 +421,30 @@
                             <div id="active-filters" class="hidden lg:flex items-center gap-2">
                                 <!-- Active filter pills will be populated here -->
                             </div>
+
+
+
+
                         </div>
 
                         <!-- Results Count -->
-                        <div class="hidden md:block text-xs text-charcoal-600">
-                            <span id="results-count-desktop">0</span> dresses found
+                        <div class="flex items-center gap-6">
+                            <div class="flex items-center">
+                                <span class="mr-3 text-xs text-charcoal-700">Show Sold</span>
+
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="toggle-sold-btn" class="sr-only peer">
+                                    <div
+                                        class="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-cream-800 transition-all duration-300">
+                                    </div>
+                                    <div
+                                        class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-all peer-checked:translate-x-full">
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="hidden md:block text-xs text-charcoal-600">
+                                <span id="results-count-desktop">0</span> dresses found
+                            </div>
                         </div>
                     </div>
 
@@ -578,6 +593,11 @@
             }).format(value);
         }
 
+        document.getElementById("toggle-sold-btn").addEventListener("change", (e) => {
+            AppState.showSold = e.target.checked; // true if checked, false if not
+            DressManager.loadDresses();
+        });
+
 
         const DressManager = {
             async loadDresses() {
@@ -592,9 +612,16 @@
                     container.innerHTML = "";
                     noResults.classList.add("hidden");
 
-                    const querySnapshot = await db.collection("dressListings")
-                        .orderBy("timestamp", "desc")
-                        .get();
+                    let query = db.collection("dressListings")
+                        .where("status", "==", "approved")
+                        .orderBy("timestamp", "desc");
+
+                    if (!AppState.showSold) {
+                        query = query.where("sold", "==", false);
+                    }
+
+                    const querySnapshot = await query.get();
+
 
                     // hide loading
                     loading.classList.remove("block");
